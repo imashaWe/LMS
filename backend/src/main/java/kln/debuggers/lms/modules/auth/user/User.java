@@ -1,19 +1,22 @@
-package kln.debuggers.lms.modules.auth;
+package kln.debuggers.lms.modules.auth.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
+    @Column(unique = true)
     private String username;
     private String password;
     @ElementCollection(fetch = FetchType.EAGER)
@@ -23,10 +26,10 @@ public class User implements UserDetails {
 
     }
 
-    public User(String username, String password, List<String> roles) {
+    public User(String username, String password, String[] roles) {
         this.username = username;
         this.password = password;
-        this.roles = roles;
+        this.roles = Arrays.stream(roles).collect(Collectors.toList());
     }
 
     @Override
@@ -62,5 +65,21 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setRoles(String[] roles) {
+        this.roles = Arrays.stream(roles).collect(Collectors.toList());;
     }
 }

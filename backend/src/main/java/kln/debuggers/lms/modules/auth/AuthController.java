@@ -1,8 +1,13 @@
 package kln.debuggers.lms.modules.auth;
 
 import kln.debuggers.lms.config.security.JwtTokenProvider;
+import kln.debuggers.lms.modules.auth.student.Student;
+import kln.debuggers.lms.modules.auth.student.StudentRepository;
+import kln.debuggers.lms.modules.auth.user.User;
+import kln.debuggers.lms.modules.auth.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,9 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @RestController()
 @RequestMapping("auth")
 @CrossOrigin
@@ -22,6 +24,8 @@ public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private StudentRepository studentRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -35,8 +39,8 @@ public class AuthController {
         this.userDetailsService = userDetailsService;
     }
 
-    @PostMapping("signin")
-    public ResponseEntity signin(@RequestBody User user) {
+    @PostMapping("login")
+    public ResponseEntity login(@RequestBody User user) {
         try {
             Authentication authenticate = authenticationManager
                     .authenticate(
@@ -46,29 +50,33 @@ public class AuthController {
                     );
 
             user = (User) authenticate.getPrincipal();
-
-
+            user.setPassword("");
             return ResponseEntity.ok()
                     .header(
                             HttpHeaders.AUTHORIZATION,
                             jwtTokenProvider.createToken(user.getUsername(), user.getAuthorities())
                     )
-                    .body(userDetailsService.loadUserByUsername(user.getUsername()));
+                    .body(user);
 
         } catch (BadCredentialsException e) {
 
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
 
         }
     }
 
-    @PostMapping("signup")
-    public ResponseEntity signup(@RequestBody User user) {
-        List<String> roles = new ArrayList() {{
-            add("ROLE_STUDENT");
-        }};
-        userRepository.save(new User(user.getUsername(), passwordEncoder.encode(user.getPassword()), roles));
+    @PostMapping("registerStudent")
+    public ResponseEntity registerStudent(@RequestBody Student student) {
+        student.setPassword(passwordEncoder.encode(student.getPassword()));
+        student.setUsername(student.getEmail());
+        student.setRoles(new String[]{"ROLE_USER"});
 
+        if (!userRepository.findUserByUsername(student.getEmail()).isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This email already exist.");
+        }
+
+        studentRepository.save(student);
+        
         return ResponseEntity.ok().build();
 
     }
