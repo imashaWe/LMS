@@ -2,19 +2,16 @@ import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import {Controller, useForm} from "react-hook-form";
 import {useState} from "react";
 import {Alert} from "@mui/material";
 import {Link} from "react-router-dom";
+import {FormContainer, PasswordElement, TextFieldElement} from "react-hook-form-mui";
 
 function Copyright(props) {
     return (
@@ -34,7 +31,7 @@ const theme = createTheme();
 export default function Login() {
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
-    const {handleSubmit, control} = useForm();
+
     const onSubmit = (data) => {
         console.log(data);
     }
@@ -57,57 +54,16 @@ export default function Login() {
                     <Typography component="h1" variant="h5">
                         Log in
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{mt: 1}}>
 
-                        <Controller
-                            name="userName"
-                            control={control}
-                            defaultValue=""
-                            rules={{required: 'User Name required'}}
-                            render={({field: {onChange, value}, fieldState: {error}}) => (
-                                <TextField
-                                    label="User Name"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    error={!!error}
-                                    helperText={error ? error.message : null}
-                                    value={value}
-                                    onChange={onChange}
-                                />
-                            )}
-                        />
-
-                        <Controller
-                            name="password"
-                            control={control}
-                            defaultValue=""
-                            rules={{required: 'Password required'}}
-                            render={({field: {onChange, value}, fieldState: {error}}) => (
-                                <TextField
-                                    label="Password"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    type="password"
-                                    error={!!error}
-                                    helperText={error ? error.message : null}
-                                    value={value}
-                                    onChange={onChange}
-                                />
-                            )}
-                        />
-
-                        <Controller
-                            name="isRemember"
-                            control={control}
-                            render={({field}) =>
-                                <FormControlLabel
-                                    label="Remember me"
-                                    control={<Checkbox {...field} color="primary"/>}
-                                />
-                            }
-                        />
+                    <FormContainer onSuccess={onSubmit}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextFieldElement fullWidth name={"userName"} type={"email"} required/>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <PasswordElement fullWidth name={"password"} required/>
+                            </Grid>
+                        </Grid>
 
                         {error && (
                             <Alert severity="error">{error}</Alert>
@@ -122,23 +78,26 @@ export default function Login() {
                         >
                             Log In
                         </LoadingButton>
-                        <Grid container>
-                            <Grid item xs>
-                                <Link to="/signup">
-                                    <Typography variant="body2">
-                                        Forgot password?
-                                    </Typography>
-                                </Link>
-                            </Grid>
-                            <Grid item>
-                                <Link to="/signup">
-                                    <Typography variant="body2">
-                                        Don't have an account? Sign Up
-                                    </Typography>
-                                </Link>
-                            </Grid>
+
+                    </FormContainer>
+
+                    <Grid container>
+                        <Grid item xs>
+                            <Link to="/signup">
+                                <Typography variant="body2">
+                                    Forgot password?
+                                </Typography>
+                            </Link>
                         </Grid>
-                    </Box>
+                        <Grid item>
+                            <Link to="/signup">
+                                <Typography variant="body2">
+                                    Don't have an account? Sign Up
+                                </Typography>
+                            </Link>
+                        </Grid>
+                    </Grid>
+
                 </Box>
                 <Copyright sx={{mt: 8, mb: 4}}/>
             </Container>
