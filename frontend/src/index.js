@@ -4,11 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router} from "react-router-dom";
-import {AuthProvider} from "./providers/AuthProvider";
+import {AuthProvider} from 'react-auth-kit'
 
 ReactDOM.render(
     <React.StrictMode>
-        <AuthProvider>
+        <AuthProvider
+            authType={'cookie'}
+            authName={'_auth'}
+            cookieDomain={window.location.hostname}
+            cookieSecure={window.location.protocol === "https:"}>
             <Router>
                 <App/>
             </Router>

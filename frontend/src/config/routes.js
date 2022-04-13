@@ -1,7 +1,8 @@
 import Home from "../components/pages/Home";
 import Page404 from "../components/pages/Page404";
 import Login from "../components/auth/Login"
-import {RequireAuth} from "../providers/AuthProvider";
+import SignUp from "../components/auth/SignUp";
+import {RequireAuth} from 'react-auth-kit'
 
 export const routes = [
     {
@@ -13,8 +14,13 @@ export const routes = [
         element: <Login/>
     },
     {
+        path: "/signup",
+        element: <SignUp/>
+
+    },
+    {
         path: "/",
-        element: <RequireAuth><Home/></RequireAuth>,
+        element: <RequireAuth loginPath={'/login'}><Home/></RequireAuth>,
 
     },
 ];
