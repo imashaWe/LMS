@@ -3,6 +3,7 @@ import Page404 from "../components/pages/Page404";
 import Login from "../components/auth/Login"
 import SignUp from "../components/auth/SignUp";
 import {RequireAuth} from 'react-auth-kit'
+import Dashboard from "../components/dashboard/Dashboard";
 
 export const routes = [
     {
@@ -20,7 +21,7 @@ export const routes = [
     },
     {
         path: "/",
-        element: <RequireAuth loginPath={'/login'}><Home/></RequireAuth>,
+        element: <RequireAuth loginPath={'/login'}><Dashboard><Home/></Dashboard></RequireAuth>,
 
     },
 ];
