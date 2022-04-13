@@ -16,19 +16,9 @@ import axios from "axios";
 import {parseApiUrl, parseMessage} from "../../helpers/functions";
 import {useSignIn} from "react-auth-kit";
 import jwt_decode from "jwt-decode";
+import CopyrightView from "../common/CopyrightView";
 
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link to="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+
 
 const theme = createTheme();
 
@@ -151,7 +141,7 @@ export default function SignUp() {
                     </Grid>
 
                 </Box>
-                <Copyright sx={{mt: 5}}/>
+                <CopyrightView sx={{mt: 5}}/>
             </Container>
         </ThemeProvider>
     );
