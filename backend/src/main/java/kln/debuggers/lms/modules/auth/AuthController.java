@@ -67,25 +67,24 @@ public class AuthController {
 
     @PostMapping("signup/{accountType}")
     public ResponseEntity registerStudent(@RequestBody Student student, @PathVariable String accountType) {
-        System.out.println("Work");
-        System.out.println(accountType);
+
         if (accountType.equals("student")) {
             student.setPassword(passwordEncoder.encode(student.getPassword()));
             student.setUsername(student.getEmail());
             student.setRoles(new String[]{"ROLE_USER"});
 
             if (!userRepository.findUserByUsername(student.getEmail()).isEmpty()) {
-                return ResponseEntity.ok()
+                return ResponseEntity.badRequest()
                         .body(new CustomResponseException("This email already exist.", HttpStatus.BAD_REQUEST));
             }
 
             studentRepository.save(student);
 
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok().body(new AuthResponse(jwtTokenProvider.createToken(student.getUsername(), student.getAuthorities()), student));
+
         }
 
+        return ResponseEntity.notFound().build();
 
     }
 }
