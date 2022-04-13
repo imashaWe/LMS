@@ -1,13 +1,14 @@
 package kln.debuggers.lms.modules.auth;
 
 import kln.debuggers.lms.config.security.JwtTokenProvider;
+import kln.debuggers.lms.modules.auth.teacher.Lecturer;
+import kln.debuggers.lms.modules.auth.teacher.LecturerRepository;
 import kln.debuggers.lms.modules.utils.CustomResponseException;
 import kln.debuggers.lms.modules.auth.student.Student;
 import kln.debuggers.lms.modules.auth.student.StudentRepository;
 import kln.debuggers.lms.modules.auth.user.User;
 import kln.debuggers.lms.modules.auth.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +28,8 @@ public class AuthController {
     private UserRepository userRepository;
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private LecturerRepository lecturerRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -65,26 +68,39 @@ public class AuthController {
         }
     }
 
-    @PostMapping("signup/{accountType}")
-    public ResponseEntity registerStudent(@RequestBody Student student, @PathVariable String accountType) {
+    @PostMapping("signup/student")
+    public ResponseEntity signupStudent(@RequestBody Student student) {
 
-        if (accountType.equals("student")) {
-            student.setPassword(passwordEncoder.encode(student.getPassword()));
-            student.setUsername(student.getEmail());
-            student.setRoles(new String[]{"ROLE_USER"});
+        student.setPassword(passwordEncoder.encode(student.getPassword()));
+        student.setUsername(student.getEmail());
+        student.setRoles(new String[]{"ROLE_STUDENT"});
 
-            if (!userRepository.findUserByUsername(student.getEmail()).isEmpty()) {
-                return ResponseEntity.badRequest()
-                        .body(new CustomResponseException("This email already exist.", HttpStatus.BAD_REQUEST));
-            }
-
-            studentRepository.save(student);
-
-            return ResponseEntity.ok().body(new AuthResponse(jwtTokenProvider.createToken(student.getUsername(), student.getAuthorities()), student));
-
+        if (!userRepository.findUserByUsername(student.getEmail()).isEmpty()) {
+            return ResponseEntity.badRequest()
+                    .body(new CustomResponseException("This email already exist.", HttpStatus.BAD_REQUEST));
         }
 
-        return ResponseEntity.notFound().build();
+        studentRepository.save(student);
+
+        return ResponseEntity.ok().body(new AuthResponse(jwtTokenProvider.createToken(student.getUsername(), student.getAuthorities()), student));
+
+    }
+
+    @PostMapping("signup/lecturer")
+    public ResponseEntity signupLecturer(@RequestBody Lecturer lecturer) {
+
+        lecturer.setPassword(passwordEncoder.encode(lecturer.getPassword()));
+        lecturer.setUsername(lecturer.getEmail());
+        lecturer.setRoles(new String[]{"ROLE_LECTURER"});
+
+        if (!userRepository.findUserByUsername(lecturer.getEmail()).isEmpty()) {
+            return ResponseEntity.badRequest()
+                    .body(new CustomResponseException("This email already exist.", HttpStatus.BAD_REQUEST));
+        }
+
+        lecturerRepository.save(lecturer);
+
+        return ResponseEntity.ok().body(new AuthResponse(jwtTokenProvider.createToken(lecturer.getUsername(), lecturer.getAuthorities()), lecturer));
 
     }
 }
