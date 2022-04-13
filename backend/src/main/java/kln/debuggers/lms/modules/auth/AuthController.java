@@ -1,6 +1,7 @@
 package kln.debuggers.lms.modules.auth;
 
 import kln.debuggers.lms.config.security.JwtTokenProvider;
+import kln.debuggers.lms.modules.utils.CustomResponseException;
 import kln.debuggers.lms.modules.auth.student.Student;
 import kln.debuggers.lms.modules.auth.student.StudentRepository;
 import kln.debuggers.lms.modules.auth.user.User;
@@ -51,33 +52,40 @@ public class AuthController {
 
             user = (User) authenticate.getPrincipal();
             user.setPassword("");
-            return ResponseEntity.ok()
-                    .header(
-                            HttpHeaders.AUTHORIZATION,
-                            jwtTokenProvider.createToken(user.getUsername(), user.getAuthorities())
-                    )
-                    .body(user);
+            return ResponseEntity
+                    .ok()
+                    .body(new AuthResponse(jwtTokenProvider.createToken(user.getUsername(), user.getAuthorities()), user));
 
         } catch (BadCredentialsException e) {
 
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(new CustomResponseException(e.getMessage(), HttpStatus.UNAUTHORIZED));
 
         }
     }
 
-    @PostMapping("registerStudent")
-    public ResponseEntity registerStudent(@RequestBody Student student) {
-        student.setPassword(passwordEncoder.encode(student.getPassword()));
-        student.setUsername(student.getEmail());
-        student.setRoles(new String[]{"ROLE_USER"});
+    @PostMapping("signup/{accountType}")
+    public ResponseEntity registerStudent(@RequestBody Student student, @PathVariable String accountType) {
+        System.out.println("Work");
+        System.out.println(accountType);
+        if (accountType.equals("student")) {
+            student.setPassword(passwordEncoder.encode(student.getPassword()));
+            student.setUsername(student.getEmail());
+            student.setRoles(new String[]{"ROLE_USER"});
 
-        if (!userRepository.findUserByUsername(student.getEmail()).isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This email already exist.");
+            if (!userRepository.findUserByUsername(student.getEmail()).isEmpty()) {
+                return ResponseEntity.ok()
+                        .body(new CustomResponseException("This email already exist.", HttpStatus.BAD_REQUEST));
+            }
+
+            studentRepository.save(student);
+
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
         }
 
-        studentRepository.save(student);
-        
-        return ResponseEntity.ok().build();
 
     }
 }

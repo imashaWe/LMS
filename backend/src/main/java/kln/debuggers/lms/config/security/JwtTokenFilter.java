@@ -1,6 +1,6 @@
 package kln.debuggers.lms.config.security;
 
-import kln.debuggers.lms.modules.auth.CustomAuthException;
+import kln.debuggers.lms.modules.utils.CustomResponseException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -26,7 +26,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Authentication auth = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
-        } catch (CustomAuthException e) {
+        } catch (CustomResponseException e) {
             SecurityContextHolder.clearContext();
             response.sendError(e.getHttpStatus().value(), e.getMessage());
             return;

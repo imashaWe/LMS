@@ -1,8 +1,8 @@
-package kln.debuggers.lms.modules.auth;
+package kln.debuggers.lms.modules.utils;
 
 import org.springframework.http.HttpStatus;
 
-public class CustomAuthException extends RuntimeException {
+public class CustomResponseException extends RuntimeException {
     @Override
     public String getMessage() {
         return message;
@@ -16,7 +16,7 @@ public class CustomAuthException extends RuntimeException {
     private final HttpStatus httpStatus;
 
 
-    public CustomAuthException(String message, HttpStatus httpStatus) {
+    public CustomResponseException(String message, HttpStatus httpStatus) {
         this.message = message;
         this.httpStatus = httpStatus;
     }

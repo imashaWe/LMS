@@ -10,8 +10,12 @@ import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useState} from "react";
 import {Alert} from "@mui/material";
-import {Link} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {FormContainer, PasswordElement, TextFieldElement} from "react-hook-form-mui";
+import axios from 'axios';
+import {useSignIn} from 'react-auth-kit'
+import {parseApiUrl, parseMessage} from "../../helpers/functions";
+import jwt_decode from "jwt-decode";
 
 function Copyright(props) {
     return (
@@ -31,9 +35,31 @@ const theme = createTheme();
 export default function Login() {
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
+    const signin = useSignIn();
+    const navigate = useNavigate();
+    const {redirect} = useParams();
+
 
     const onSubmit = (data) => {
-        console.log(data);
+        setLoading(true);
+        setError(false);
+        axios.post(parseApiUrl('auth/login'), data)
+            .then((r) => {
+                let tokenData = jwt_decode(r.data.token);
+                signin({
+                    token: r.data.token,
+                    expiresIn: tokenData.exp,
+                    tokenType: "Bearer",
+                    authState: r.data.user,
+                });
+                if (redirect) {
+                    navigate(redirect)
+                } else {
+                    navigate("/")
+                }
+            })
+            .catch((e) => setError(parseMessage(e)))
+            .finally(() => setLoading(false));
     }
 
     return (
@@ -58,7 +84,7 @@ export default function Login() {
                     <FormContainer onSuccess={onSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
-                                <TextFieldElement fullWidth name={"userName"} type={"email"} required/>
+                                <TextFieldElement fullWidth name={"username"} type={"email"} required/>
                             </Grid>
                             <Grid item xs={12}>
                                 <PasswordElement fullWidth name={"password"} required/>
@@ -66,7 +92,7 @@ export default function Login() {
                         </Grid>
 
                         {error && (
-                            <Alert severity="error">{error}</Alert>
+                            <Alert severity="error" sx={{marginTop: 2}}>{error}</Alert>
                         )}
 
                         <LoadingButton
@@ -99,7 +125,7 @@ export default function Login() {
                     </Grid>
 
                 </Box>
-                <Copyright sx={{mt: 8, mb: 4}}/>
+                <Copyright sx={{mb: 4}}/>
             </Container>
         </ThemeProvider>
     );
