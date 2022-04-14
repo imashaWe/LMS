@@ -1,9 +1,12 @@
 import React from 'react';
-import {Breadcrumbs, Divider, Link, Typography} from "@mui/material";
+import {Box, Breadcrumbs, Divider, Fab, Link, Typography} from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import {fabStyle} from "../../config/style";
 
 function Blank() {
     return (
-        <React.Fragment>
+        <Box>
+
             <Breadcrumbs aria-label="breadcrumb">
                 <Link underline="hover" color="inherit" href="/">
                     MUI
@@ -17,8 +20,15 @@ function Blank() {
                 </Link>
                 <Typography color="text.primary">Breadcrumbs</Typography>
             </Breadcrumbs>
+
             <Divider/>
-        </React.Fragment>
+
+            <Fab variant="extended" color="primary" aria-label="add" style={fabStyle}>
+                <AddIcon sx={{mr: 1}}/>
+                Add New
+            </Fab>
+
+        </Box>
 
 
     );

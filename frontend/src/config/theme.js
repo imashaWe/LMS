@@ -9,6 +9,7 @@ const LinkBehavior = React.forwardRef((props, ref) => {
     return <RouterLink data-testid="custom-link" ref={ref} to={href} {...other} />;
 });
 
+
 export const theme = createTheme({
     palette: {
         type: 'light',
