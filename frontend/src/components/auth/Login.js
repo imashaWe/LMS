@@ -8,8 +8,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {useState} from "react";
-import {Alert} from "@mui/material";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Alert, Link} from "@mui/material";
+import {useNavigate, useParams} from "react-router-dom";
 import {FormContainer, PasswordElement, TextFieldElement} from "react-hook-form-mui";
 import axios from 'axios';
 import {useSignIn} from 'react-auth-kit'
@@ -94,14 +94,14 @@ export default function Login() {
 
                 <Grid container>
                     <Grid item xs>
-                        <Link to="/signup">
+                        <Link href="/signup">
                             <Typography variant="body2">
                                 Forgot password?
                             </Typography>
                         </Link>
                     </Grid>
                     <Grid item>
-                        <Link to="/signup">
+                        <Link href="/signup">
                             <Typography variant="body2">
                                 Don't have an account? Sign Up
                             </Typography>
