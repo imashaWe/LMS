@@ -8,9 +8,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {useState} from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {FormContainer, PasswordElement, RadioButtonGroup, SelectElement, TextFieldElement} from "react-hook-form-mui";
-import {Alert} from "@mui/material";
+import {Alert, Link} from "@mui/material";
 import axios from "axios";
 import {parseApiUrl, parseMessage} from "../../helpers/functions";
 import {useSignIn} from "react-auth-kit";
@@ -127,7 +127,7 @@ export default function SignUp() {
 
                 <Grid container justifyContent="flex-end">
                     <Grid item>
-                        <Link to="/login">
+                        <Link href="/login">
                             <Typography variant="body2">Already have an account? Sign in</Typography>
                         </Link>
 
