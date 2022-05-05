@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     Box,
-    Breadcrumbs, Button,
+    Breadcrumbs, Button, ButtonGroup,
     Divider,
     Fab,
     Link, Paper,
@@ -33,23 +33,25 @@ function Courses() {
                 }}
             >
                 <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 400 }} aria-label="simple table">
+                    <Table sx={{minWidth: 400}} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell >Title</TableCell>
+                                <TableCell>Title</TableCell>
                                 <TableCell>Description</TableCell>
-                                <TableCell >Action</TableCell>
+                                <TableCell>Action</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             <TableRow>
                                 <TableCell>Software Engineering</TableCell>
                                 <TableCell>
-                                    This course covers the fundamentals of software engineering
+                                    This course covers the fundamentals of software engineering.
                                 </TableCell>
                                 <TableCell>
-                                    <Button variant="contained">Edit</Button>
-                                    <Button variant="contained" color="error">Delete</Button>
+                                    <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                                        <Button>Edit</Button>
+                                        <Button color="error">Delete</Button>
+                                    </ButtonGroup>
                                 </TableCell>
                             </TableRow>
                         </TableBody>

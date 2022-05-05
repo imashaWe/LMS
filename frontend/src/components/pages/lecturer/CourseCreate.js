@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 import {FormContainer, SelectElement, TextFieldElement} from "react-hook-form-mui";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-function CourseCreate(){
+function CourseCreate() {
 
     const [loading, setLoading] = useState(false);
     const onSubmit = (data) => {
@@ -76,7 +76,7 @@ function CourseCreate(){
                     <LoadingButton
                         type="submit"
                         variant="contained"
-                        sx={{mt: 3, mb: 2}}
+                        sx={{mt: 3, mb: 2,float: 'right'}}
                         loading={loading}
                     >
                         Save

@@ -29,7 +29,19 @@ export const routes = [
     },
     {
         path: "/lecturer/courses",
-        element: <RequireAuth loginPath={'/login'}><Dashboard><Courses/></Dashboard></RequireAuth>,
+        children: [
+            {
+                index: true,
+                element: <RequireAuth loginPath={'/login'}><Dashboard><Courses/></Dashboard></RequireAuth>,
+
+            },
+            {
+                path: "/lecturer/courses/create",
+                element: <RequireAuth loginPath={'/login'}><Dashboard><CourseCreate/></Dashboard></RequireAuth>,
+
+            },
+        ],
+
 
     },
     {

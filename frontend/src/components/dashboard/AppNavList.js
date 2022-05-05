@@ -3,6 +3,7 @@ import {ListItemButton, ListItemIcon, ListItemText, Divider, List} from "@mui/ma
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupRoundedIcon from '@mui/icons-material/GroupRounded';
 import {useNavigate} from "react-router-dom";
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 const AppNavList = () => {
     const navigate = useNavigate();
@@ -14,6 +15,12 @@ const AppNavList = () => {
                         <DashboardIcon/>
                     </ListItemIcon>
                     <ListItemText primary="Dashboard"/>
+                </ListItemButton>
+                <ListItemButton onClick={() => navigate("/lecturer/courses")}>
+                    <ListItemIcon>
+                        <MenuBookIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Courses"/>
                 </ListItemButton>
             </List>
             <Divider sx={{my: 1}}/>
