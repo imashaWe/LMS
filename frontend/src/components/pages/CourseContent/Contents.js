@@ -62,7 +62,7 @@ function Contents() {
 
             </Box>
 
-            <Fab variant="extended" color="primary" aria-label="add" style={fabStyle} href="/lecturer/Content/create">
+            <Fab variant="extended" color="primary" aria-label="add" style={fabStyle} href="/courseContent/contents/create">
                 <AddIcon sx={{mr: 1}}/>
                 Add New
             </Fab>
