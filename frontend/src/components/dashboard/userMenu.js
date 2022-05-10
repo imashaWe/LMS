@@ -1,10 +1,9 @@
 import * as React from "react";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
+import {Typography, Avatar, IconButton, Box, Menu, MenuItem, Tooltip, Divider} from "@mui/material";
 import {Person} from "@mui/icons-material";
-import {Menu, MenuItem} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {useAuthUser, useIsAuthenticated, useSignOut} from "react-auth-kit";
+import {stringToColor} from "../../helpers/functions";
 
 
 function UserMenu() {
@@ -26,11 +25,44 @@ function UserMenu() {
     const handleLogout = () => {
         signOut();
     }
-
+    const fullName = `${auth().firstName}  ${auth().lastName}`;
     if (!isAuthenticated) {
         return <React.Fragment/>
     }
 
+    return (
+        <Box sx={{flexGrow: 0}}>
+            <Tooltip title="Open settings">
+                <IconButton onClick={handleClick} sx={{p: 0}}>
+                    <Avatar
+                        alt={fullName}
+                        src="/static/images/avatar/2.jpg"
+                        sx={{bgcolor: stringToColor(fullName)}}/>
+                </IconButton>
+            </Tooltip>
+            <Menu
+                sx={{mt: '45px'}}
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                open={open}
+                onClose={handleClose}
+            >
+                <MenuItem >{auth().lastName}</MenuItem>
+                <Divider/>
+                <MenuItem onClick={handleClose}>My Account</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+        </Box>
+    );
     return (
 
         <React.Fragment>
@@ -53,9 +85,7 @@ function UserMenu() {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+
             </Menu>
         </React.Fragment>
     );
