@@ -3,12 +3,20 @@ import {Alert, Box, Breadcrumbs, Button, Divider, Fab, Link, Typography} from "@
 import Grid from '@mui/material/Grid';
 import {FormContainer, SelectElement, TextFieldElement} from "react-hook-form-mui";
 import LoadingButton from "@mui/lab/LoadingButton";
+import {useApi} from "../../../helpers/hookes/useApi";
+import {parseMessage} from "../../../helpers/functions";
 
 function CourseCreate() {
 
+    const api = useApi();
+    const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
     const onSubmit = (data) => {
-        console.log(data)
+        setLoading(true);
+        setError(null);
+        api.post('course/create',data).then((r)=>console.log(r.data))
+            .catch((e) => setError(parseMessage(e)))
+            .finally(()=>setLoading(false));
     }
 
     return (
