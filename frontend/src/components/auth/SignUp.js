@@ -1,15 +1,9 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import {Avatar,CssBaseline,Grid,Box,Typography,Container} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import {useState} from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {useNavigate, useParams} from "react-router-dom";
-import {FormContainer, PasswordElement, RadioButtonGroup, SelectElement, TextFieldElement} from "react-hook-form-mui";
+import {FormContainer, PasswordElement, RadioButtonGroup, TextFieldElement} from "react-hook-form-mui";
 import {Alert, Link} from "@mui/material";
 import axios from "axios";
 import {parseApiUrl, parseMessage} from "../../helpers/functions";
@@ -135,7 +129,17 @@ export default function SignUp() {
                 </Grid>
 
             </Box>
-            <CopyrightView sx={{mt: 5}}/>
+            <Box
+                component="footer"
+                sx={{
+                    py: 3,
+                    px: 2,
+                    mt: 'auto',
+                }}
+            >
+                <CopyrightView sx={{mt: 5}}/>
+            </Box>
+
         </Container>
     );
 }
