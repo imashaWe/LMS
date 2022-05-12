@@ -1,7 +1,7 @@
-package kln.debuggers.lms.modules.auth;
+package kln.debuggers.lms.modules.api.auth;
 
-import kln.debuggers.lms.modules.auth.user.User;
-import kln.debuggers.lms.modules.auth.user.UserRepository;
+import kln.debuggers.lms.modules.api.auth.user.User;
+import kln.debuggers.lms.modules.api.auth.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

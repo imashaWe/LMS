@@ -1,24 +1,23 @@
-package kln.debuggers.lms.modules.auth.student;
+package kln.debuggers.lms.modules.api.auth.teacher;
 
-import kln.debuggers.lms.modules.auth.user.User;
+import kln.debuggers.lms.modules.api.auth.user.User;
 
 import javax.persistence.Entity;
 
 @Entity
-public class Student extends User {
+public class Lecturer extends User {
     private String firstName;
     private String lastName;
     private String email;
 
+    public Lecturer() {
 
-    public Student(String firstName, String lastName, String email, String password) {
+    }
+
+    public Lecturer(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-    }
-
-    public Student() {
-
     }
 
     public String getFirstName() {
@@ -32,5 +31,4 @@ public class Student extends User {
     public String getEmail() {
         return email;
     }
-
 }

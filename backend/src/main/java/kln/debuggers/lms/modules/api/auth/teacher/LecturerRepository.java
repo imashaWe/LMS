@@ -1,4 +1,4 @@
-package kln.debuggers.lms.modules.auth.teacher;
+package kln.debuggers.lms.modules.api.auth.teacher;
 
 import org.springframework.data.repository.CrudRepository;
 
