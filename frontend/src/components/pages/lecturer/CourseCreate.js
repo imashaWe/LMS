@@ -1,24 +1,54 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, Box, Breadcrumbs, Button, Divider, Fab, Link, Typography} from "@mui/material";
 import Grid from '@mui/material/Grid';
 import {FormContainer, SelectElement, TextFieldElement} from "react-hook-form-mui";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {useApi} from "../../../helpers/hookes/useApi";
-import {parseMessage} from "../../../helpers/functions";
+import {parseFormData, parseMessage} from "../../../helpers/functions";
+import {useForm} from "react-hook-form";
+import {FileUploader} from "react-drag-drop-files";
 
 function CourseCreate() {
 
     const api = useApi();
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
+    const [subjects, setSubject] = useState([]);
+    const [file, setFile] = useState(null);
+
+    const formContext = useForm({
+        defaultValues: {
+            title: '',
+            duration: '',
+            description: '',
+            subjectID: 0,
+        }
+    })
+
+    const handleChange = (file) => {
+        setFile(file);
+    };
     const onSubmit = (data) => {
+        const formData = parseFormData(data);
+        formData.append("thumbnail", file);
         setLoading(true);
         setError(null);
-        api.post('course/create',data).then((r)=>console.log(r.data))
+        api.post('course', formData).then((r) => console.log(r.data))
             .catch((e) => setError(parseMessage(e)))
-            .finally(()=>setLoading(false));
+            .finally(() => setLoading(false));
     }
 
+    const init = () => {
+        api.get('basicdata/subject',).then((r) => {
+            setSubject(r.data.map((d) => {
+                d.title = d.subject;
+                return d;
+            }))
+        });
+    }
+    useEffect(() => {
+        init();
+    }, [])
     return (
         <Box>
             <Breadcrumbs aria-label="breadcrumb">
@@ -38,7 +68,7 @@ function CourseCreate() {
                     alignItems: 'center',
                 }}
             >
-                <FormContainer onSuccess={onSubmit}>
+                <FormContainer onSuccess={onSubmit} formContext={formContext}>
                     <Grid container spacing={2}>
                         <Grid item xs={2}>
                             <label>Title:</label>
@@ -51,20 +81,11 @@ function CourseCreate() {
                         </Grid>
                         <Grid item xs={4}>
                             <SelectElement
-                                name="subject"
+                                name="subjectID"
                                 size="small"
                                 fullWidth
                                 required
-                                options={[
-                                    {
-                                        id: '1',
-                                        title: 'Label 1'
-                                    },
-                                    {
-                                        id: '2',
-                                        title: 'label 2'
-                                    }
-                                ]}
+                                options={subjects}
                             />
                         </Grid>
                         <Grid item xs={2}>
@@ -72,6 +93,10 @@ function CourseCreate() {
                         </Grid>
                         <Grid item xs={4}>
                             <TextFieldElement name="duration" fullWidth size='small' required/>
+                        </Grid>
+                        <Grid item xs={12}>Thumbnail</Grid>
+                        <Grid item xs={12}>
+                            <FileUploader handleChange={handleChange} types={["JPG", "PNG", "GIF"]} />
                         </Grid>
                         <Grid item xs={12}>
                             <label>Description:</label>
@@ -84,7 +109,7 @@ function CourseCreate() {
                     <LoadingButton
                         type="submit"
                         variant="contained"
-                        sx={{mt: 3, mb: 2,float: 'right'}}
+                        sx={{mt: 3, mb: 2, float: 'right'}}
                         loading={loading}
                     >
                         Save
