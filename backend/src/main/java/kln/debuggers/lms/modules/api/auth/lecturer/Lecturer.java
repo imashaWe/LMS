@@ -1,4 +1,4 @@
-package kln.debuggers.lms.modules.api.auth.teacher;
+package kln.debuggers.lms.modules.api.auth.lecturer;
 
 import kln.debuggers.lms.modules.api.auth.user.User;
 

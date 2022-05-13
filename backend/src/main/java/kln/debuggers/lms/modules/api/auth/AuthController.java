@@ -1,9 +1,9 @@
 package kln.debuggers.lms.modules.api.auth;
 
 import kln.debuggers.lms.config.security.JwtTokenProvider;
-import kln.debuggers.lms.modules.api.auth.teacher.Lecturer;
-import kln.debuggers.lms.modules.api.auth.teacher.LecturerRepository;
-import kln.debuggers.lms.modules.utils.CustomResponseException;
+import kln.debuggers.lms.modules.api.auth.lecturer.Lecturer;
+import kln.debuggers.lms.modules.api.auth.lecturer.LecturerRepository;
+import kln.debuggers.lms.modules.api.auth.utils.CustomResponseException;
 import kln.debuggers.lms.modules.api.auth.student.Student;
 import kln.debuggers.lms.modules.api.auth.student.StudentRepository;
 import kln.debuggers.lms.modules.api.auth.user.User;
