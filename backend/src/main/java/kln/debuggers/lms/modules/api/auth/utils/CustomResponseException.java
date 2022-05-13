@@ -1,4 +1,4 @@
-package kln.debuggers.lms.modules.utils;
+package kln.debuggers.lms.modules.api.auth.utils;
 
 import org.springframework.http.HttpStatus;
 

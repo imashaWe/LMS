@@ -1,5 +1,5 @@
-package kln.debuggers.lms.modules.auth;
-import kln.debuggers.lms.modules.auth.user.User;
+package kln.debuggers.lms.modules.api.auth;
+import kln.debuggers.lms.modules.api.auth.user.User;
 
 public class AuthResponse {
    final private String token;

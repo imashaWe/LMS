@@ -1,4 +1,4 @@
-package kln.debuggers.lms.modules.auth.user;
+package kln.debuggers.lms.modules.api.auth.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

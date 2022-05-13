@@ -1,6 +1,6 @@
 package kln.debuggers.lms.config.security;
 
-import kln.debuggers.lms.modules.utils.CustomResponseException;
+import kln.debuggers.lms.modules.api.auth.utils.CustomResponseException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;

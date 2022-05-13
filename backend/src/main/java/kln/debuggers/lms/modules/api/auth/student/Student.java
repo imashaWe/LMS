@@ -1,6 +1,6 @@
-package kln.debuggers.lms.modules.auth.student;
+package kln.debuggers.lms.modules.api.auth.student;
 
-import kln.debuggers.lms.modules.auth.user.User;
+import kln.debuggers.lms.modules.api.auth.user.User;
 
 import javax.persistence.Entity;
 
