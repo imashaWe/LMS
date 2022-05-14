@@ -3,13 +3,16 @@ import {routes} from "./config/routes";
 import {ThemeProvider} from "@mui/material";
 import {theme} from "./config/theme";
 import AppLoadingProvider from "./providers/AppLoading";
+import {SnackbarProvider} from "material-ui-snackbar-provider";
 
 function App() {
     const pageRoutes = useRoutes(routes);
     return (
         <ThemeProvider theme={theme}>
             <AppLoadingProvider>
-                {pageRoutes}
+                <SnackbarProvider SnackbarProps={{autoHideDuration: 4000}}>
+                    {pageRoutes}
+                </SnackbarProvider>
             </AppLoadingProvider>
         </ThemeProvider>
     );
