@@ -29,13 +29,9 @@ public class CourseController {
         return ResponseEntity.ok("Successfully Saved");
     }
 
-    @PutMapping()
-    public ResponseEntity update(@RequestBody Course course) {
-        try {
-            courseService.addNewCourse(course);
-        } catch (CloudStorageException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @DeleteMapping("{id}")
+    public ResponseEntity delete(@PathVariable Long id) {
+        courseService.delete(id);
         return ResponseEntity.ok("Successfully Saved");
     }
 
