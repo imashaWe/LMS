@@ -7,6 +7,8 @@ import {useApi} from "../../../helpers/hookes/useApi";
 import {parseFormData, parseMessage} from "../../../helpers/functions";
 import {useForm} from "react-hook-form";
 import {FileUploader} from "react-drag-drop-files";
+import jwt_decode from "jwt-decode";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 function CourseCreate() {
 
@@ -14,16 +16,15 @@ function CourseCreate() {
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
     const [subjects, setSubject] = useState([]);
+    const [levels,setLevel] = useState([])
     const [file, setFile] = useState(null);
+    const navigate = useNavigate();
+    const {state} = useLocation();
+let defaultValues;
+if (state) {
+    defaultValues =state.data;
+}
 
-    const formContext = useForm({
-        defaultValues: {
-            title: '',
-            duration: '',
-            description: '',
-            subjectID: 0,
-        }
-    })
 
     const handleChange = (file) => {
         setFile(file);
@@ -33,15 +34,21 @@ function CourseCreate() {
         formData.append("thumbnail", file);
         setLoading(true);
         setError(null);
-        api.post('course', formData).then((r) => console.log(r.data))
+        api.post('course', formData).then((r) => {
+            navigate("/lecturer/courses")
+        })
             .catch((e) => setError(parseMessage(e)))
             .finally(() => setLoading(false));
     }
 
     const init = () => {
-        api.get('basicdata/subject',).then((r) => {
-            setSubject(r.data.map((d) => {
+        api.get('basicdata',).then((r) => {
+            setSubject(r.data.subjects.map((d) => {
                 d.title = d.subject;
+                return d;
+            }))
+            setLevel(r.data.levels.map((d) => {
+                d.title = d.level;
                 return d;
             }))
         });
@@ -62,46 +69,61 @@ function CourseCreate() {
 
             <Box
                 sx={{
-                    margin: 8,
+                    marginX: 16,
+                    marginY: 8,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                 }}
             >
-                <FormContainer onSuccess={onSubmit} formContext={formContext}>
+                <FormContainer onSuccess={onSubmit} defaultValues={defaultValues}>
                     <Grid container spacing={2}>
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <label>Title:</label>
                         </Grid>
-                        <Grid item xs={10}>
+                        <Grid item xs={9}>
                             <TextFieldElement name="title" fullWidth size='small' required/>
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
+                            <label>Duration:</label>
+                        </Grid>
+                        <Grid item xs={9}>
+                            <TextFieldElement name="duration" fullWidth size='small' type='number' required/>
+                        </Grid>
+                        <Grid item xs={3}>
                             <label>Subject:</label>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={9}>
                             <SelectElement
                                 name="subjectID"
                                 size="small"
                                 fullWidth
                                 required
+                                label="Select"
                                 options={subjects}
                             />
                         </Grid>
-                        <Grid item xs={2}>
-                            <label>Duration:</label>
+                        <Grid item xs={3}>
+                            <label>Level:</label>
                         </Grid>
-                        <Grid item xs={4}>
-                            <TextFieldElement name="duration" fullWidth size='small' required/>
+                        <Grid item xs={9}>
+                            <SelectElement
+                                name="levelID"
+                                size="small"
+                                fullWidth
+                                required
+                                label="Select"
+                                options={levels}
+                            />
                         </Grid>
-                        <Grid item xs={12}>Thumbnail</Grid>
-                        <Grid item xs={12}>
-                            <FileUploader handleChange={handleChange} types={["JPG", "PNG", "GIF"]} />
+                        <Grid item xs={3}>Thumbnail:</Grid>
+                        <Grid item xs={9}>
+                            <FileUploader handleChange={handleChange} types={["JPG", "PNG", "GIF"]} maxSize={8}/>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={3}>
                             <label>Description:</label>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={9}>
                             <TextFieldElement name="description" fullWidth multiline rows={5} required/>
                         </Grid>
 

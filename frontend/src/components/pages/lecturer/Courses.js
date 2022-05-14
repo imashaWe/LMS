@@ -14,17 +14,32 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import {fabStyle} from "../../../config/style";
 import {useApi} from "../../../helpers/hookes/useApi";
+import {useNavigate} from "react-router-dom";
 
 function Courses() {
     const [data, setData] = useState([]);
+    const navigate = useNavigate();
     const api = useApi();
 
     const init = () => {
         api.get('course').then((r) => setData(r.data));
     }
-
-    //update
-
+    const editHandler = (data) => {
+        delete data.subjectID;
+        delete data.levelID;
+        delete data.lecturer;
+        delete data.thumbnailURL;
+        delete data.subject;
+        delete data.level;
+        navigate('create', {state: {data}})
+    }
+    const deleteHandler = (id) => {
+        api.delete(`course/${id}`).then((r) => {
+            init()
+        }).catch((e) => {
+            console.log(e)
+        })
+    }
     useEffect(() => {
         init()
     }, []);
@@ -59,7 +74,7 @@ function Courses() {
                             {
                                 data.map((d) => {
                                     return (
-                                        <TableRow>
+                                        <TableRow key={d.id}>
                                             <TableCell>{d.title}</TableCell>
                                             <TableCell>
                                                 {d.description}
@@ -67,8 +82,9 @@ function Courses() {
                                             <TableCell>
                                                 <ButtonGroup variant="contained"
                                                              aria-label="outlined primary button group">
-                                                    <Button>Edit</Button>
-                                                    <Button color="error">Delete</Button>
+                                                    <Button onClick={() => editHandler(d)}>Edit</Button>
+                                                    <Button color="error"
+                                                            onClick={() => deleteHandler(d.id)}>Delete</Button>
                                                 </ButtonGroup>
                                             </TableCell>
                                         </TableRow>

@@ -1,6 +1,7 @@
 package kln.debuggers.lms.modules.api.course;
 
 import kln.debuggers.lms.modules.api.auth.lecturer.Lecturer;
+import kln.debuggers.lms.modules.api.basicdata.Level;
 import kln.debuggers.lms.modules.api.basicdata.Subject;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -8,7 +9,6 @@ import javax.persistence.*;
 
 @Entity
 public class Course {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -20,12 +20,20 @@ public class Course {
     @ManyToOne
     private Subject subject;
     @ManyToOne
+    private Level level;
+    @ManyToOne
     private Lecturer lecturer;
 
     @Transient
     private Long subjectID;
     @Transient
+    private Long levelID;
+    @Transient
     private MultipartFile thumbnail;
+
+    public long getId() { return id; }
+
+    public void setId(long id) { this.id = id; }
 
     public String getTitle() {
         return title;
@@ -90,4 +98,21 @@ public class Course {
     public void setThumbnail(MultipartFile thumbnail) {
         this.thumbnail = thumbnail;
     }
+
+    public Long getLevelID() {
+        return levelID;
+    }
+
+    public void setLevelID(Long levelID) {
+        this.levelID = levelID;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
 }
