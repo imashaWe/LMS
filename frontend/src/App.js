@@ -4,15 +4,18 @@ import {ThemeProvider} from "@mui/material";
 import {theme} from "./config/theme";
 import AppLoadingProvider from "./providers/AppLoading";
 import {SnackbarProvider} from "material-ui-snackbar-provider";
+import AppMessage from "./providers/AppMessage";
 
 function App() {
     const pageRoutes = useRoutes(routes);
     return (
         <ThemeProvider theme={theme}>
             <AppLoadingProvider>
-                <SnackbarProvider SnackbarProps={{autoHideDuration: 4000}}>
+                <AppMessage>
+
                     {pageRoutes}
-                </SnackbarProvider>
+
+                </AppMessage>
             </AppLoadingProvider>
         </ThemeProvider>
     );

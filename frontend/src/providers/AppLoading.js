@@ -1,6 +1,6 @@
 import {createContext, useContext, useMemo, useState} from "react";
 
-export const AppLoadingContext = createContext({
+const AppLoadingContext = createContext({
     appLoading: false,
     setAppLoading: () => {
     }
