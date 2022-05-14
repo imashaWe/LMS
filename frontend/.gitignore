@@ -27,3 +27,4 @@ yarn-error.log*
 *.iws
 *.iml
 *.ipr
+/package-lock.json

@@ -12,10 +12,10 @@ import {useNavigate, useParams} from "react-router-dom";
 import {FormContainer, PasswordElement, RadioButtonGroup, SelectElement, TextFieldElement} from "react-hook-form-mui";
 import {Alert, Link} from "@mui/material";
 import axios from "axios";
-import {parseApiUrl, parseMessage} from "../../helpers/functions";
+import {parseApiUrl, parseMessage} from "../../../helpers/functions";
 import {useSignIn} from "react-auth-kit";
 import jwt_decode from "jwt-decode";
-import CopyrightView from "../common/CopyrightView";
+import CopyrightView from "../../common/CopyrightView";
 
 export default function SignUp() {
     const [error, setError] = useState();
