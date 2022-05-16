@@ -4,6 +4,7 @@ import kln.debuggers.lms.modules.storage.CloudStorageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,11 +16,13 @@ public class CourseController {
     private CourseService courseService;
 
     @GetMapping()
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
     public ResponseEntity getAll() {
         return ResponseEntity.ok(courseService.getAll());
     }
 
     @PostMapping()
+    @PreAuthorize("hasRole('ROLE_LECTURER')")
     public ResponseEntity create(@ModelAttribute Course course) {
         try {
             courseService.addNewCourse(course);
@@ -30,6 +33,7 @@ public class CourseController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_LECTURER')")
     public ResponseEntity delete(@PathVariable Long id) {
         courseService.delete(id);
         return ResponseEntity.ok("Successfully Saved");
