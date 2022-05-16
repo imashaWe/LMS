@@ -6,7 +6,6 @@ import {Menu, MenuItem} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {useAuthUser, useIsAuthenticated, useSignOut} from "react-auth-kit";
 
-
 function UserMenu() {
     const isAuthenticated = useIsAuthenticated()
     const navigate = useNavigate();

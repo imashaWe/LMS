@@ -8,3 +8,11 @@ export const parseMessage = (e) => {
     return e.response.data.message;
 }
 export const parseApiUrl = (path) => BASE_URL + path;
+
+export const parseFormData = (data) => {
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(data)) {
+        formData.append(key, value);
+    }
+    return formData;
+}

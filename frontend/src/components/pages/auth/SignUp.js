@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
@@ -6,16 +7,16 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {useState} from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {useNavigate, useParams} from "react-router-dom";
-import {FormContainer, PasswordElement, RadioButtonGroup, SelectElement, TextFieldElement} from "react-hook-form-mui";
+import {FormContainer, PasswordElement, RadioButtonGroup, TextFieldElement} from "react-hook-form-mui";
 import {Alert, Link} from "@mui/material";
 import axios from "axios";
 import {parseApiUrl, parseMessage} from "../../../helpers/functions";
 import {useSignIn} from "react-auth-kit";
 import jwt_decode from "jwt-decode";
 import CopyrightView from "../../common/CopyrightView";
+import useQuery from "../../../helpers/hookes/useQuery";
 
 export default function SignUp() {
     const [error, setError] = useState();
@@ -23,6 +24,7 @@ export default function SignUp() {
     const signin = useSignIn();
     const navigate = useNavigate();
     const {redirect} = useParams();
+    const query = useQuery();
 
     const onSubmit = (data) => {
         if (data.password !== data.passwordConfirm) {
@@ -40,11 +42,7 @@ export default function SignUp() {
                     tokenType: "Bearer",
                     authState: r.data.user,
                 });
-                if (redirect) {
-                    navigate(redirect)
-                } else {
-                    navigate("/")
-                }
+                navigate(query.get("redirect") ?? "/");
             })
             .catch((e) => setError(parseMessage(e)))
             .finally(() => setLoading(false));

@@ -23,10 +23,10 @@ public class TestController {
     @PostMapping()
     ResponseEntity upload(@RequestParam MultipartFile file) {
         try {
-           String path = cloudStorage.upload(file);
-         return   ResponseEntity.ok(path);
+            String path = cloudStorage.upload(file);
+            return ResponseEntity.ok(path);
         } catch (CloudStorageException e) {
-           return ResponseEntity.ok(e.getMessage());
+            return ResponseEntity.ok(e.getMessage());
         }
 
     }

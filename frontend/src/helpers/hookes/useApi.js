@@ -5,10 +5,8 @@ import {useAuthHeader} from "react-auth-kit";
 export const useApi = () => {
     const authHeader = useAuthHeader()
     return axios.create({
-        baseURL: BASE_URL,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': authHeader(),
+        baseURL: BASE_URL, headers: {
+            'Content-Type': 'application/json', 'Authorization': authHeader(),
         }
     });
 }

@@ -1,10 +1,15 @@
 import {useLocation, useNavigate} from "react-router-dom";
 import {createContext, useContext, useEffect, useMemo, useState} from "react";
 import {SnackbarProvider, useSnackbar} from "material-ui-snackbar-provider";
+import {positions, Provider, useAlert} from "react-alert";
+import AlertMUITemplate from "react-alert-template-mui";
+
+const options = {
+    position: positions.MIDDLE
+};
 
 const AppErrorContext = createContext({
-    appError: null,
-    setAppError: () => {
+    appError: null, setAppError: () => {
     }
 });
 
@@ -12,25 +17,24 @@ export default function AppMessage({children}) {
     const location = useLocation();
     const [appError, setAppError] = useState();
 
-    const value = useMemo(
-        () => ({appError, setAppError}),
-        [appError]
-    );
+    const value = useMemo(() => ({appError, setAppError}), [appError]);
 
     useEffect(() => setAppError(null), [location]);
 
-    return (
-        <AppErrorContext.Provider value={value}>
+    return (<AppErrorContext.Provider value={value}>
             <SnackbarProvider SnackbarProps={{autoHideDuration: 4000}}>
-                {children}
+                <Provider template={AlertMUITemplate} {...options}>
+                    {children}
+                </Provider>
             </SnackbarProvider>
-        </AppErrorContext.Provider>
-    );
+        </AppErrorContext.Provider>);
 }
 
 export const useAppMessage = () => {
     const snackbar = useSnackbar();
     const navigate = useNavigate();
+    const location = useLocation();
+    const alert = useAlert()
     const {appError, setAppError} = useContext(AppErrorContext)
 
     const parseMessage = (e) => {
@@ -44,7 +48,10 @@ export const useAppMessage = () => {
                 navigate('404');
             }
             if (e.response.status == 401) {
-                navigate('401');
+                navigate(`/login?redirect=${location.pathname}`);
+            }
+            if (e.response.status == 403) {
+                navigate(`403`);
             }
 
             return e.message;
@@ -54,17 +61,13 @@ export const useAppMessage = () => {
     }
 
     return {
-        error: appError,
-        clear: () => {
+        error: appError, alert: alert, clear: () => {
             setAppError(null)
-        },
-        setError: (message) => {
+        }, setError: (message) => {
             setAppError(message);
-        },
-        notifyError: (message) => {
+        }, notifyError: (message) => {
             snackbar.showMessage(parseMessage(message));
-        },
-        notifySuccess: (message) => {
+        }, notifySuccess: (message) => {
             snackbar.showMessage(message);
         }
     }
