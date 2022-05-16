@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Breadcrumbs, Divider, Fab, Link, Typography} from "@mui/material";
+import {Box, Breadcrumbs, Button, Divider, Fab, Link, Typography} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import {fabStyle} from "../../config/style";
 
@@ -27,7 +27,6 @@ function Blank() {
                 <AddIcon sx={{mr: 1}}/>
                 Add New
             </Fab>
-
         </Box>
 
 

@@ -15,14 +15,22 @@ import AddIcon from '@mui/icons-material/Add';
 import {fabStyle} from "../../../config/style";
 import {useApi} from "../../../helpers/hookes/useApi";
 import {useNavigate} from "react-router-dom";
+import {useAppLoading} from "../../../providers/AppLoading";
+import {useAppMessage} from "../../../providers/AppMessage";
 
 function Courses() {
     const [data, setData] = useState([]);
     const navigate = useNavigate();
     const api = useApi();
+    const setAppLoading = useAppLoading();
+    const appMessage = useAppMessage();
 
     const init = () => {
-        api.get('course').then((r) => setData(r.data));
+        setAppLoading(true)
+        api.get('course/my')
+            .then((r) => setData(r.data))
+            .catch((e) => appMessage.notifyError(e))
+            .finally(() => setAppLoading(false));
     }
     const editHandler = (data) => {
         delete data.subjectID;
@@ -34,10 +42,26 @@ function Courses() {
         navigate('create', {state: {data}})
     }
     const deleteHandler = (id) => {
+        appMessage.alert.show(
+            "You can change copy of close button now!",
+            {
+                title: "Test",
+                closeCopy: "Cancel",
+                actions: [
+                    {
+                        copy: "Yes, Delete it!",
+                        onClick: () => deleteCourse()
+                    }
+                ]
+            }
+        )
+    }
+    const deleteCourse = (id) => {
         api.delete(`course/${id}`).then((r) => {
-            init()
+            init();
+            appMessage.notifySuccess("Deleted Successfully");
         }).catch((e) => {
-            console.log(e)
+            appMessage.notifyError(e);
         })
     }
     useEffect(() => {
@@ -83,8 +107,13 @@ function Courses() {
                                                 <ButtonGroup variant="contained"
                                                              aria-label="outlined primary button group">
                                                     <Button onClick={() => editHandler(d)}>Edit</Button>
-                                                    <Button color="error"
-                                                            onClick={() => deleteHandler(d.id)}>Delete</Button>
+                                                    <Button
+                                                        color="error"
+                                                        onClick={() => {
+                                                            deleteCourse(d.id)
+                                                            //deleteHandler(d.id)
+                                                        }}>Delete
+                                                    </Button>
                                                 </ButtonGroup>
                                             </TableCell>
                                         </TableRow>
@@ -98,7 +127,7 @@ function Courses() {
 
             </Box>
 
-            <Fab variant="extended" color="primary" aria-label="add" style={fabStyle} href="/lecturer/courses/create">
+            <Fab variant="extended" color="primary" aria-label="add" style={fabStyle} href="/course/create">
                 <AddIcon sx={{mr: 1}}/>
                 Add New
             </Fab>

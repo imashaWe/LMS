@@ -16,7 +16,7 @@ const AppNavList = () => {
                     </ListItemIcon>
                     <ListItemText primary="Dashboard"/>
                 </ListItemButton>
-                <ListItemButton onClick={() => navigate("/lecturer/courses")}>
+                <ListItemButton onClick={() => navigate("/course")}>
                     <ListItemIcon>
                         <MenuBookIcon/>
                     </ListItemIcon>

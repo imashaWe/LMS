@@ -13,16 +13,17 @@ import {useNavigate, useParams} from "react-router-dom";
 import {FormContainer, PasswordElement, TextFieldElement} from "react-hook-form-mui";
 import axios from 'axios';
 import {useSignIn} from 'react-auth-kit'
-import {parseApiUrl, parseMessage} from "../../helpers/functions";
+import {parseApiUrl, parseMessage} from "../../../helpers/functions";
 import jwt_decode from "jwt-decode";
-import CopyrightView from "../common/CopyrightView";
+import CopyrightView from "../../common/CopyrightView";
+import useQuery from "../../../helpers/hookes/useQuery";
 
 export default function Login() {
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
     const signin = useSignIn();
     const navigate = useNavigate();
-    const {redirect} = useParams();
+    const query = useQuery();
 
 
     const onSubmit = (data) => {
@@ -37,11 +38,9 @@ export default function Login() {
                     tokenType: "Bearer",
                     authState: r.data.user,
                 });
-                if (redirect) {
-                    navigate(redirect)
-                } else {
-                    navigate("/")
-                }
+
+                navigate(query.get("redirect") ?? "/");
+
             })
             .catch((e) => setError(parseMessage(e)))
             .finally(() => setLoading(false));

@@ -14,6 +14,8 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import AppNavList from "./AppNavList";
 import {APP_TITLE} from "../../config/constants";
 import UserMenu from "./userMenu";
+import {useAppLoadingState} from "../../providers/AppLoading";
+import {LinearProgress} from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -85,6 +87,7 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 export default function Dashboard({children}) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const appLoading = useAppLoadingState();
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -120,6 +123,9 @@ export default function Dashboard({children}) {
                     </Typography>
                     <UserMenu/>
                 </Toolbar>
+                {
+                    (appLoading) && <LinearProgress color="info"/>
+                }
             </AppBar>
             <Drawer variant="permanent" open={open}>
                 <DrawerHeader>

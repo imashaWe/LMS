@@ -15,6 +15,11 @@ public class TestController {
     @Autowired
     private CloudStorage cloudStorage;
 
+    @GetMapping()
+    ResponseEntity get() {
+        return ResponseEntity.notFound().build();
+    }
+
     @PostMapping()
     ResponseEntity upload(@RequestParam MultipartFile file) {
         try {

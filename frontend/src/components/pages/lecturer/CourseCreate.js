@@ -5,53 +5,59 @@ import {FormContainer, SelectElement, TextFieldElement} from "react-hook-form-mu
 import LoadingButton from "@mui/lab/LoadingButton";
 import {useApi} from "../../../helpers/hookes/useApi";
 import {parseFormData, parseMessage} from "../../../helpers/functions";
-import {useForm} from "react-hook-form";
-import {FileUploader} from "react-drag-drop-files";
-import jwt_decode from "jwt-decode";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useAppMessage} from "../../../providers/AppMessage";
+import FileUploader from "../../common/FileUploader";
 
 function CourseCreate() {
 
     const api = useApi();
-    const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
     const [subjects, setSubject] = useState([]);
-    const [levels,setLevel] = useState([])
+    const [levels, setLevel] = useState([])
     const [file, setFile] = useState(null);
     const navigate = useNavigate();
     const {state} = useLocation();
-let defaultValues;
-if (state) {
-    defaultValues =state.data;
-}
+    const appMessage = useAppMessage();
+
+    let defaultValues;
+    if (state) {
+        defaultValues = state.data;
+    }
 
 
     const handleChange = (file) => {
         setFile(file);
     };
     const onSubmit = (data) => {
+        appMessage.clear()
+        if (!file) {
+            appMessage.setError("Please select a thumbnail")
+            return;
+        }
         const formData = parseFormData(data);
         formData.append("thumbnail", file);
         setLoading(true);
-        setError(null);
         api.post('course', formData).then((r) => {
-            navigate("/lecturer/courses")
+            appMessage.notifySuccess("Saved Successfully");
+            navigate("/course")
         })
-            .catch((e) => setError(parseMessage(e)))
+            .catch((e) => appMessage.setError(parseMessage(e)))
             .finally(() => setLoading(false));
     }
 
     const init = () => {
-        api.get('basicdata',).then((r) => {
-            setSubject(r.data.subjects.map((d) => {
-                d.title = d.subject;
-                return d;
-            }))
-            setLevel(r.data.levels.map((d) => {
-                d.title = d.level;
-                return d;
-            }))
-        });
+        api.get('basicdata',)
+            .then((r) => {
+                setSubject(r.data.subjects.map((d) => {
+                    d.title = d.subject;
+                    return d;
+                }))
+                setLevel(r.data.levels.map((d) => {
+                    d.title = d.level;
+                    return d;
+                }))
+            });
     }
     useEffect(() => {
         init();
@@ -59,14 +65,13 @@ if (state) {
     return (
         <Box>
             <Breadcrumbs aria-label="breadcrumb">
-                <Link underline="hover" color="inherit" href="/lecturer/courses">
+                <Link underline="hover" color="inherit" href="/course">
                     Courses
                 </Link>
                 <Typography color="text.primary">Create</Typography>
             </Breadcrumbs>
 
             <Divider/>
-
             <Box
                 sx={{
                     marginX: 16,
@@ -118,7 +123,7 @@ if (state) {
                         </Grid>
                         <Grid item xs={3}>Thumbnail:</Grid>
                         <Grid item xs={9}>
-                            <FileUploader handleChange={handleChange} types={["JPG", "PNG", "GIF"]} maxSize={8}/>
+                            <FileUploader onChange={handleChange}/>
                         </Grid>
                         <Grid item xs={3}>
                             <label>Description:</label>
@@ -128,6 +133,9 @@ if (state) {
                         </Grid>
 
                     </Grid>
+                    {appMessage.error && (
+                        <Alert severity="error" sx={{marginTop: 2}}>{appMessage.error}</Alert>
+                    )}
                     <LoadingButton
                         type="submit"
                         variant="contained"
