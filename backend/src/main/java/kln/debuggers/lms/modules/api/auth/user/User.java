@@ -1,4 +1,4 @@
-package kln.debuggers.lms.modules.auth.user;
+package kln.debuggers.lms.modules.api.auth.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -42,9 +42,17 @@ public class User implements UserDetails {
         return this.password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String getUsername() {
         return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -71,15 +79,7 @@ public class User implements UserDetails {
         return id;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public void setRoles(String[] roles) {
-        this.roles = Arrays.stream(roles).collect(Collectors.toList());;
+        this.roles = Arrays.stream(roles).collect(Collectors.toList());
     }
 }
