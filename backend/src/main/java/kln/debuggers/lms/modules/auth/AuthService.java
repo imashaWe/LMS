@@ -52,8 +52,6 @@ public class AuthService {
         } catch (BadCredentialsException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
-
-        user.setPassword("");
         return new AuthResponse(jwtTokenProvider.createToken(user.getUsername(), user.getAuthorities()), user);
     }
 
