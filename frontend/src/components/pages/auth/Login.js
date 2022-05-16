@@ -1,29 +1,22 @@
-import * as React from 'react';
-import {useState} from 'react';
-import Avatar from '@mui/material/Avatar';
+import {useState} from "react";
+import {Avatar,Alert, Link,CssBaseline,Grid,Box,Typography,Container} from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import {Alert, Link} from "@mui/material";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {FormContainer, PasswordElement, TextFieldElement} from "react-hook-form-mui";
 import axios from 'axios';
-import {useSignIn} from 'react-auth-kit'
-import {parseApiUrl, parseMessage} from "../../../helpers/functions";
+import {useSignIn} from 'react-auth-kit';
 import jwt_decode from "jwt-decode";
 import CopyrightView from "../../common/CopyrightView";
-import useQuery from "../../../helpers/hookes/useQuery";
+import {parseApiUrl, parseMessage} from "../../../helpers/functions";
 
 export default function Login() {
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
     const signin = useSignIn();
     const navigate = useNavigate();
-    const query = useQuery();
+    const {redirect} = useParams();
+
 
     const onSubmit = (data) => {
         setLoading(true);
@@ -37,9 +30,11 @@ export default function Login() {
                     tokenType: "Bearer",
                     authState: r.data.user,
                 });
-
-                navigate(query.get("redirect") ?? "/");
-
+                if (redirect) {
+                    navigate(redirect)
+                } else {
+                    navigate("/")
+                }
             })
             .catch((e) => setError(parseMessage(e)))
             .finally(() => setLoading(false));

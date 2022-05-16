@@ -1,8 +1,8 @@
-package kln.debuggers.lms.modules.auth;
+package kln.debuggers.lms.modules.api.auth;
 
-import kln.debuggers.lms.modules.auth.student.Student;
-import kln.debuggers.lms.modules.auth.teacher.Lecturer;
-import kln.debuggers.lms.modules.auth.user.User;
+import kln.debuggers.lms.modules.api.auth.lecturer.Lecturer;
+import kln.debuggers.lms.modules.api.auth.student.Student;
+import kln.debuggers.lms.modules.api.auth.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

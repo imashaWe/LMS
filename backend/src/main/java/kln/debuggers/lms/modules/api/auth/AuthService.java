@@ -1,12 +1,12 @@
-package kln.debuggers.lms.modules.auth;
+package kln.debuggers.lms.modules.api.auth;
 
 import kln.debuggers.lms.config.security.JwtTokenProvider;
-import kln.debuggers.lms.modules.auth.student.Student;
-import kln.debuggers.lms.modules.auth.student.StudentRepository;
-import kln.debuggers.lms.modules.auth.teacher.Lecturer;
-import kln.debuggers.lms.modules.auth.teacher.LecturerRepository;
-import kln.debuggers.lms.modules.auth.user.User;
-import kln.debuggers.lms.modules.auth.user.UserRepository;
+import kln.debuggers.lms.modules.api.auth.lecturer.Lecturer;
+import kln.debuggers.lms.modules.api.auth.lecturer.LecturerRepository;
+import kln.debuggers.lms.modules.api.auth.student.Student;
+import kln.debuggers.lms.modules.api.auth.student.StudentRepository;
+import kln.debuggers.lms.modules.api.auth.user.User;
+import kln.debuggers.lms.modules.api.auth.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;

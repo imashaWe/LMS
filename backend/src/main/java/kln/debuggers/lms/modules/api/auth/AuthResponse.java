@@ -1,13 +1,13 @@
-package kln.debuggers.lms.modules.auth;
+package kln.debuggers.lms.modules.api.auth;
 
-import kln.debuggers.lms.modules.auth.student.Student;
-import kln.debuggers.lms.modules.auth.teacher.Lecturer;
+import kln.debuggers.lms.modules.api.auth.lecturer.Lecturer;
+import kln.debuggers.lms.modules.api.auth.student.Student;
 
 public class AuthResponse {
     final private String token;
-    private String firstName;
-    private String lastName;
-    private String email;
+    private final String firstName;
+    private final String lastName;
+    private final String email;
 
     public AuthResponse(String token, Object user) {
         this.token = token;
