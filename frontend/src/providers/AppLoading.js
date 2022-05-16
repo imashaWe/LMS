@@ -1,8 +1,7 @@
 import {createContext, useContext, useMemo, useState} from "react";
 
 const AppLoadingContext = createContext({
-    appLoading: false,
-    setAppLoading: () => {
+    appLoading: false, setAppLoading: () => {
     }
 });
 
@@ -20,15 +19,10 @@ export const useAppLoadingState = () => {
 
 export default function AppLoadingProvider({children}) {
     const [appLoading, setAppLoading] = useState(false);
-    const value = useMemo(
-        () => ({appLoading, setAppLoading}),
-        [appLoading]
-    );
-    return (
-        <AppLoadingContext.Provider value={value}>
+    const value = useMemo(() => ({appLoading, setAppLoading}), [appLoading]);
+    return (<AppLoadingContext.Provider value={value}>
             {children}
-        </AppLoadingContext.Provider>
-    );
+        </AppLoadingContext.Provider>);
 }
 
 

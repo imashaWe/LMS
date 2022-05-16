@@ -3,11 +3,11 @@ package kln.debuggers.lms.modules.api.auth;
 import kln.debuggers.lms.config.security.JwtTokenProvider;
 import kln.debuggers.lms.modules.api.auth.lecturer.Lecturer;
 import kln.debuggers.lms.modules.api.auth.lecturer.LecturerRepository;
-import kln.debuggers.lms.modules.api.auth.utils.CustomResponseException;
 import kln.debuggers.lms.modules.api.auth.student.Student;
 import kln.debuggers.lms.modules.api.auth.student.StudentRepository;
 import kln.debuggers.lms.modules.api.auth.user.User;
 import kln.debuggers.lms.modules.api.auth.user.UserRepository;
+import kln.debuggers.lms.modules.api.auth.utils.CustomResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +24,9 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class AuthController {
 
+    final private AuthenticationManager authenticationManager;
+    final private JwtTokenProvider jwtTokenProvider;
+    final private UserDetailsService userDetailsService;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -32,10 +35,6 @@ public class AuthController {
     private LecturerRepository lecturerRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    final private AuthenticationManager authenticationManager;
-    final private JwtTokenProvider jwtTokenProvider;
-    final private UserDetailsService userDetailsService;
 
     public AuthController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;

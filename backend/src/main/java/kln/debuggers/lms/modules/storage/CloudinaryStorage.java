@@ -1,6 +1,8 @@
 package kln.debuggers.lms.modules.storage;
 
-import com.cloudinary.*;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.Singleton;
+import com.cloudinary.SingletonManager;
 import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

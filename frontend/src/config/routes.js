@@ -10,54 +10,31 @@ import CourseCreate from "../components/pages/lecturer/CourseCreate";
 import Page403 from "../components/pages/error/Page403";
 import Page401 from "../components/pages/error/Page401";
 
-export const routes = [
-    {
-        path: "*",
-        element: <Page404/>
-    },
-    {
-        path: "/404",
-        element: <Page404/>
-    },
-    {
-        path: "/401",
-        element: <Page401/>
-    },
-    {
-        path: "/403",
-        element: <Page403/>
-    },
-    {
-        path: "/login",
-        element: <Login/>
-    },
-    {
-        path: "/signup",
-        element: <SignUp/>
+export const routes = [{
+    path: "*", element: <Page404/>
+}, {
+    path: "/404", element: <Page404/>
+}, {
+    path: "/401", element: <Page401/>
+}, {
+    path: "/403", element: <Page403/>
+}, {
+    path: "/login", element: <Login/>
+}, {
+    path: "/signup", element: <SignUp/>
 
-    },
-    {
-        path: "/",
-        element: <RequireAuth loginPath={'/login'}><Dashboard><Home/></Dashboard></RequireAuth>,
+}, {
+    path: "/", element: <RequireAuth loginPath={'/login'}><Dashboard><Home/></Dashboard></RequireAuth>,
 
-    },
-    {
-        path: "/course",
-        children: [
-            {
-                index: true,
-                element: <RequireAuth loginPath={'/login'}><Dashboard><Courses/></Dashboard></RequireAuth>,
-            },
-            {
-                path: "/course/create",
-                element: <RequireAuth loginPath={'/login'}><Dashboard><CourseCreate/></Dashboard></RequireAuth>,
-            }
-        ]
+}, {
+    path: "/course", children: [{
+        index: true, element: <RequireAuth loginPath={'/login'}><Dashboard><Courses/></Dashboard></RequireAuth>,
+    }, {
+        path: "/course/create",
+        element: <RequireAuth loginPath={'/login'}><Dashboard><CourseCreate/></Dashboard></RequireAuth>,
+    }]
 
-    },
-    {
-        path: "/blank",
-        element: <RequireAuth loginPath={'/login'}><Dashboard><Blank/></Dashboard></RequireAuth>,
+}, {
+    path: "/blank", element: <RequireAuth loginPath={'/login'}><Dashboard><Blank/></Dashboard></RequireAuth>,
 
-    },
-];
+},];

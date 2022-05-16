@@ -28,8 +28,7 @@ export default function FileUploader(props) {
         props.onChange(file);
     }
 
-    return (
-        <Box
+    return (<Box
             textAlign="center"
             sx={{
                 border: "solid 0.5px #E8E8E8",
@@ -63,6 +62,5 @@ export default function FileUploader(props) {
                 </Grid>
             </Grid>
 
-        </Box>
-    );
+        </Box>);
 }

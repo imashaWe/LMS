@@ -6,11 +6,9 @@ export const useMessage = () => {
     return {
         error: (message) => {
 
-        },
-        errorNotify: (message) => {
+        }, errorNotify: (message) => {
             snackbar.showMessage(message);
-        },
-        successNotify: (message) => {
+        }, successNotify: (message) => {
             snackbar.showMessage(message);
         }
     }

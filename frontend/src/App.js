@@ -7,15 +7,13 @@ import AppMessage from "./providers/AppMessage";
 
 function App() {
     const pageRoutes = useRoutes(routes);
-    return (
-        <ThemeProvider theme={theme}>
+    return (<ThemeProvider theme={theme}>
             <AppLoadingProvider>
                 <AppMessage>
                     {pageRoutes}
                 </AppMessage>
             </AppLoadingProvider>
-        </ThemeProvider>
-    );
+        </ThemeProvider>);
 
 }
 

@@ -9,10 +9,10 @@ export const parseMessage = (e) => {
 }
 export const parseApiUrl = (path) => BASE_URL + path;
 
-export const parseFormData = (data) =>{
+export const parseFormData = (data) => {
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
-        formData.append(key,value);
+        formData.append(key, value);
     }
     return formData;
 }
