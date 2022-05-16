@@ -5,8 +5,6 @@ import SignUp from "../components/auth/SignUp";
 import {RequireAuth} from 'react-auth-kit'
 import Dashboard from "../components/dashboard/Dashboard";
 import Blank from "../components/pages/Blank";
-import Courses from "../components/pages/lecturer/Courses";
-import CourseCreate from "../components/pages/lecturer/CourseCreate";
 
 export const routes = [
     {
@@ -25,28 +23,6 @@ export const routes = [
     {
         path: "/",
         element: <RequireAuth loginPath={'/login'}><Dashboard><Home/></Dashboard></RequireAuth>,
-
-    },
-    {
-        path: "/lecturer/courses",
-        children: [
-            {
-                index: true,
-                element: <RequireAuth loginPath={'/login'}><Dashboard><Courses/></Dashboard></RequireAuth>,
-
-            },
-            {
-                path: "/lecturer/courses/create",
-                element: <RequireAuth loginPath={'/login'}><Dashboard><CourseCreate/></Dashboard></RequireAuth>,
-
-            },
-        ],
-
-
-    },
-    {
-        path: "/lecturer/courses/create",
-        element: <RequireAuth loginPath={'/login'}><Dashboard><CourseCreate/></Dashboard></RequireAuth>,
 
     },
     {

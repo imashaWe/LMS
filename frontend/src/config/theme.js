@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {createTheme} from '@mui/material/styles';
-import {Link as RouterLink, MemoryRouter} from 'react-router-dom';
+import {Link as RouterLink} from 'react-router-dom';
 
 
 const LinkBehavior = React.forwardRef((props, ref) => {

@@ -56,10 +56,10 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().disable()
-               .csrf().disable()
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .exceptionHandling(customizer -> customizer.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                .cors().and().authorizeRequests(r -> r.antMatchers(HttpMethod.POST,"/auth/**").permitAll().anyRequest().authenticated())
+                .cors().and().authorizeRequests(r -> r.antMatchers(HttpMethod.POST, "/auth/**").permitAll().anyRequest().authenticated())
                 .addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 }
