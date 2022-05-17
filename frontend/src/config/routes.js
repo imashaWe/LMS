@@ -7,6 +7,8 @@ import ContentCreate from "../components/pages/CourseContent/ContentCreate";
 import Login from "../components/pages/auth/Login";
 import SignUp from "../components/pages/auth/SignUp";
 import Page404 from "../components/pages/error/Page404";
+import Courses from "../components/pages/lecturer/Courses";
+import CourseCreate from "../components/pages/lecturer/CourseCreate";
 
 export const routes = [
     {
@@ -33,25 +35,27 @@ export const routes = [
 
     },
     {
-        path: "/content",
+        path: "/course",
         children: [
             {
-                index: true,
-                element: <RequireAuth loginPath={'/login'}><Dashboard><Contents/></Dashboard></RequireAuth>,
-
+                index: true, element: <RequireAuth loginPath={'/login'}><Dashboard><Courses/></Dashboard></RequireAuth>,
             },
             {
-                path: "/content/create",
-                element: <RequireAuth loginPath={'/login'}><Dashboard><ContentCreate/></Dashboard></RequireAuth>,
+                path: "/course/create",
+                element: <RequireAuth loginPath={'/login'}><Dashboard><CourseCreate/></Dashboard></RequireAuth>,
+            },
+            {
+                path: "/course/content",
+
+                element: <RequireAuth loginPath={'/login'}><Dashboard><Contents/></Dashboard></RequireAuth>,
+            },
+            {
+                path: "/course/content/create/:courseID",
+                element: <RequireAuth
+                    loginPath={'/login'}><Dashboard><ContentCreate/></Dashboard></RequireAuth>,
 
             },
-        ],
+        ]
+    }
 
-
-    },
-    {
-        path: "/content/create",
-        element: <RequireAuth loginPath={'/login'}><Dashboard><ContentCreate/></Dashboard></RequireAuth>,
-
-    },
 ];

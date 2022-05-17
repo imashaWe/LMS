@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import {fabStyle} from "../../../config/style";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useApi} from "../../../helpers/hookes/useApi";
 import {useAppLoading} from "../../../providers/AppLoading";
 import {useAppMessage} from "../../../providers/AppMessage";
@@ -24,16 +24,19 @@ function Contents() {
     const api = useApi();
     const setAppLoading = useAppLoading();
     const appMessage = useAppMessage();
-
+    const {state} = useLocation();
+    const url = `/course/content/create/${state.data.id}`;
     const init = () => {
         setAppLoading(true)
-        api.get('content/2')
+        api.get(`content/${state.data.id}`)
             .then((r) => setData(r.data))
             .catch((e) => appMessage.notifyError(e))
             .finally(() => setAppLoading(false));
     }
     const editHandler = (data) => {
-        navigate('create', {state: {data}})
+        delete data.course;
+        delete data.file;
+        navigate(url, {state: {data}})
     }
 
     const deleteHandler = (id) => {
@@ -67,6 +70,10 @@ function Contents() {
         <Box>
 
             <Breadcrumbs aria-label="breadcrumb">
+                <Link underline="hover" color="inherit" href="/course">
+                    Course
+                </Link>
+                <Typography color="text.primary">{state.data.title}</Typography>
                 <Typography color="text.primary">Contents</Typography>
             </Breadcrumbs>
 
@@ -101,7 +108,8 @@ function Contents() {
                                             <TableCell>{d.type}</TableCell>
                                             <TableCell>{d.dueDate}</TableCell>
                                             <TableCell>
-                                                <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                                                <ButtonGroup variant="contained"
+                                                             aria-label="outlined primary button group">
                                                     <Button onClick={() => editHandler(d)}>Edit</Button>
                                                     <Button color="error" onClick={() => {
                                                         deleteContent(d.id)
@@ -119,7 +127,7 @@ function Contents() {
 
             </Box>
 
-            <Fab variant="extended" color="primary" aria-label="add" style={fabStyle} href="/content/create">
+            <Fab variant="extended" color="primary" aria-label="add" style={fabStyle} href={url}>
                 <AddIcon sx={{mr: 1}}/>
                 Add New
             </Fab>
