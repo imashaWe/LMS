@@ -44,13 +44,13 @@ export const useAppMessage = () => {
 
         if (e.response) {
 
-            if (e.response.status == 404) {
+            if (e.response.status === 404) {
                 navigate('404');
             }
-            if (e.response.status == 401) {
+            if (e.response.status === 401) {
                 navigate(`/login?redirect=${location.pathname}`);
             }
-            if (e.response.status == 403) {
+            if (e.response.status === 403) {
                 navigate(`403`);
             }
 
