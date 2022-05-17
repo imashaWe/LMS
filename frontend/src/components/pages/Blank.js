@@ -6,7 +6,6 @@ import {fabStyle} from "../../config/style";
 function Blank() {
     return (
         <Box>
-
             <Breadcrumbs aria-label="breadcrumb">
                 <Link underline="hover" color="inherit" href="/">
                     MUI
@@ -27,10 +26,7 @@ function Blank() {
                 <AddIcon sx={{mr: 1}}/>
                 Add New
             </Fab>
-
         </Box>
-
-
     );
 }
 
