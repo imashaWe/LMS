@@ -1,15 +1,12 @@
 import React, {useState} from "react";
-import {Alert, Box, Breadcrumbs, Button, Divider, Fab, Link, Typography} from "@mui/material";
+import {Alert, Box, Breadcrumbs, Divider, Link, Typography} from "@mui/material";
 import Grid from '@mui/material/Grid';
-import {FormContainer, SelectElement, TextFieldElement} from "react-hook-form-mui";
+import {FormContainer, RadioButtonGroup, TextFieldElement} from "react-hook-form-mui";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import {useApi} from "../../../helpers/hookes/useApi";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useAppMessage} from "../../../providers/AppMessage";
 import {parseFormData, parseMessage} from "../../../helpers/functions";
 import FileUploader from "../../common/FileUploader";
@@ -20,6 +17,7 @@ function ContentCreate() {
     const [file, setFile] = useState(null);
     const navigate = useNavigate();
     const {state} = useLocation();
+    const {courseID} = useParams();
     const appMessage = useAppMessage();
 
     let defaultValues;
@@ -33,31 +31,20 @@ function ContentCreate() {
 
     const onSubmit = (data) => {
         appMessage.clear()
-        if (!file) {
-            appMessage.setError("Please Select a File")
-            return;
-        }
         const formData = parseFormData(data);
-        formData.append("file", file);
         setLoading(true);
-        api.post('content/2', formData).then((r) => {
+        api.post(`content/create/${courseID}`, formData).then((r) => {
             appMessage.notifySuccess("Saved Successfully");
-            navigate("/content")
+            navigate(`/course`)
         })
             .catch((e) => appMessage.setError(parseMessage(e)))
             .finally(() => setLoading(false))
     }
 
-    // const init = () => {
-    //     api.get('basicdata').then((r) => {
-    //
-    //     })
-    // }
-
     return (
         <Box>
             <Breadcrumbs aria-label="breadcrumb">
-                <Link underline="hover" color="inherit" href="/courseContent/contents">
+                <Link underline="hover" color="inherit" href="/course/content">
                     Contents
                 </Link>
                 <Typography color="text.primary">Create</Typography>
@@ -93,15 +80,24 @@ function ContentCreate() {
                             <FormLabel id="demo-row-radio-buttons-group-label">Type: </FormLabel>
                         </Grid>
                         <Grid item xs={9}>
-                            <RadioGroup
+                            <RadioButtonGroup
+                                name="type"
+                                options={[
+                                    {
+                                        id: 'Content',
+                                        label: 'Content'
+                                    },
+                                    {
+                                        id: 'Assignment',
+                                        label: 'Assignment'
+                                    },
+                                    {
+                                        id: 'Announcement',
+                                        label: 'Announcement'
+                                    }
+                                ]}
                                 row
-                                aria-labelledby="demo-row-radio-buttons-group-label"
-                                name="row-radio-buttons-group"
-                            >
-                                <FormControlLabel name="doc" value="Document" control={<Radio/>} label="Document"/>
-                                <FormControlLabel name="vid" value="Video" control={<Radio/>} label="Video"/>
-                                <FormControlLabel name="as" value="Assignment" control={<Radio/>} label="Assignment"/>
-                            </RadioGroup>
+                            />
                         </Grid>
 
                         <Grid item xs={3}>

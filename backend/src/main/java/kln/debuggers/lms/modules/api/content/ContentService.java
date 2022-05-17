@@ -24,9 +24,13 @@ public class ContentService {
 
     void addNewContent(Content content, Long courseID) throws CloudStorageException {
         final Course course = courseRepository.findById(courseID).get();
-        final String url = cloudStorage.upload(content.getFile());
+        if (content.getFile() != null) {
+            final String url = cloudStorage.upload(content.getFile());
+            content.setFileURL(url);
+        }
+
         content.setCourse(course);
-        content.setFileURL(url);
+
         contentRepository.save(content);
     }
 

@@ -14,19 +14,13 @@ public class ContentController {
     @Autowired
     private ContentService contentService;
 
-//    @GetMapping()
-//    public ResponseEntity getAll() {
-//        return ResponseEntity.ok(contentService.getAll());
-//    }
-
     @PostMapping("create/{courseID}")
     public ResponseEntity create(@ModelAttribute Content content, @PathVariable Long courseID) {
-//        try {
-//            contentService.addNewContent(content, courseID);
-//        } catch (CloudStorageException e) {
-//            System.out.println("ëroro");
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//        }
+        try {
+            contentService.addNewContent(content, courseID);
+        } catch (CloudStorageException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
         return ResponseEntity.ok("Successfully Saved");
     }
 

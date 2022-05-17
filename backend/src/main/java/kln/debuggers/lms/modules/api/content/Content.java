@@ -60,9 +60,9 @@ public class Content {
         return dueDate;
     }
 
-    public void setDueDate(LocalDateTime dueDate) {
+    public void setDueDate(String dueDate) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        this.dueDate = dueDate;
+        this.dueDate = LocalDateTime.parse(dueDate);
     }
 
     public String getFileURL() {
