@@ -45,19 +45,19 @@ export const useAppMessage = () => {
         if (e.response) {
 
             if (e.response.status === 404) {
-                navigate('404');
+                navigate('/404');
             }
             if (e.response.status === 401) {
                 navigate(`/login?redirect=${location.pathname}`);
             }
             if (e.response.status === 403) {
-                navigate(`403`);
+                navigate(`/403`);
             }
 
-            return e.message;
+            return e.response.data;
         }
 
-        return e.response.data.message;
+        return e.message;
     }
 
     return {
