@@ -57,7 +57,7 @@ export const useAppMessage = () => {
             return e.message;
         }
 
-        return e.response.data.message;
+        return e.response.data;
     }
 
     return {

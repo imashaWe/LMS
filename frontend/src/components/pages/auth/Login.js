@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Avatar,Alert, Link,CssBaseline,Grid,Box,Typography,Container} from "@mui/material";
+import {Avatar, Alert, Link, CssBaseline, Grid, Box, Typography, Container} from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {useNavigate, useParams} from "react-router-dom";
@@ -9,34 +9,31 @@ import {useSignIn} from 'react-auth-kit';
 import jwt_decode from "jwt-decode";
 import CopyrightView from "../../common/CopyrightView";
 import {parseApiUrl, parseMessage} from "../../../helpers/functions";
+import {useAppMessage} from "../../../providers/AppMessage";
+import useQuery from "../../../helpers/hookes/useQuery";
 
 export default function Login() {
-    const [error, setError] = useState();
+    const appMessage = useAppMessage();
     const [loading, setLoading] = useState(false);
     const signin = useSignIn();
     const navigate = useNavigate();
-    const {redirect} = useParams();
-
+    const query = useQuery();
 
     const onSubmit = (data) => {
         setLoading(true);
-        setError(false);
+        appMessage.clear();
         axios.post(parseApiUrl('auth/login'), data)
             .then((r) => {
-                let tokenData = jwt_decode(r.data.token);
+                const tokenData = jwt_decode(r.data.token);
                 signin({
                     token: r.data.token,
                     expiresIn: tokenData.exp,
                     tokenType: "Bearer",
-                    authState: r.data.user,
+                    authState: r.data,
                 });
-                if (redirect) {
-                    navigate(redirect)
-                } else {
-                    navigate("/")
-                }
+                navigate(query.get("redirect") ?? "/");
             })
-            .catch((e) => setError(parseMessage(e)))
+            .catch((e) => appMessage.setError(e))
             .finally(() => setLoading(false));
     }
 
@@ -69,8 +66,8 @@ export default function Login() {
                         </Grid>
                     </Grid>
 
-                    {error && (
-                        <Alert severity="error" sx={{marginTop: 2}}>{error}</Alert>
+                    {appMessage.error && (
+                        <Alert severity="error" sx={{marginTop: 2}}>{appMessage.error}</Alert>
                     )}
 
                     <LoadingButton

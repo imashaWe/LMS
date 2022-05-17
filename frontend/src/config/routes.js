@@ -1,12 +1,12 @@
 import Home from "../components/pages/Home";
-import Page404 from "../components/pages/Page404";
-import Login from "../components/auth/Login"
-import SignUp from "../components/auth/SignUp";
 import {RequireAuth} from 'react-auth-kit'
 import Dashboard from "../components/dashboard/Dashboard";
 import Blank from "../components/pages/Blank";
 import Contents from "../components/pages/CourseContent/Contents";
 import ContentCreate from "../components/pages/CourseContent/ContentCreate";
+import Login from "../components/pages/auth/Login";
+import SignUp from "../components/pages/auth/SignUp";
+import Page404 from "../components/pages/error/Page404";
 
 export const routes = [
     {
@@ -33,7 +33,7 @@ export const routes = [
 
     },
     {
-        path: "/courseContent/contents",
+        path: "/content",
         children: [
             {
                 index: true,
@@ -41,7 +41,7 @@ export const routes = [
 
             },
             {
-                path: "/courseContent/contents/create",
+                path: "/content/create",
                 element: <RequireAuth loginPath={'/login'}><Dashboard><ContentCreate/></Dashboard></RequireAuth>,
 
             },
@@ -50,7 +50,7 @@ export const routes = [
 
     },
     {
-        path: "/courseContent/contents/create",
+        path: "/content/create",
         element: <RequireAuth loginPath={'/login'}><Dashboard><ContentCreate/></Dashboard></RequireAuth>,
 
     },

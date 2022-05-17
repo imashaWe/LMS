@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Box,
     Breadcrumbs, Button, ButtonGroup,
@@ -13,8 +13,56 @@ import {
 } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import {fabStyle} from "../../../config/style";
+import {useNavigate} from "react-router-dom";
+import {useApi} from "../../../helpers/hookes/useApi";
+import {useAppLoading} from "../../../providers/AppLoading";
+import {useAppMessage} from "../../../providers/AppMessage";
 
 function Contents() {
+    const [data, setData] = useState([]);
+    const navigate = useNavigate();
+    const api = useApi();
+    const setAppLoading = useAppLoading();
+    const appMessage = useAppMessage();
+
+    const init = () => {
+        setAppLoading(true)
+        api.get('content/2')
+            .then((r) => setData(r.data))
+            .catch((e) => appMessage.notifyError(e))
+            .finally(() => setAppLoading(false));
+    }
+    const editHandler = (data) => {
+        navigate('create', {state: {data}})
+    }
+
+    const deleteHandler = (id) => {
+        appMessage.alert.show(
+            "You can change copy of close button now!",
+            {
+                title: "Test",
+                closeCopy: "Cancel",
+                actions: [
+                    {
+                        copy: "Yes, Delete it!",
+                        onClick: () => deleteContent()
+                    }
+                ]
+            }
+        )
+    }
+    const deleteContent = (id) => {
+        api.delete('content/${id}').then((r) => {
+            init();
+            appMessage.notifySuccess("Deleted Successfully");
+        }).catch((e) => {
+            appMessage.notifyError(e);
+        })
+    }
+    useEffect(() => {
+        init()
+    }, [])
+
     return (
         <Box>
 
@@ -44,25 +92,34 @@ function Contents() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            <TableRow>
-                                <TableCell>Lecture Slides</TableCell>
-                                <TableCell>This is description.</TableCell>
-                                <TableCell>Document</TableCell>
-                                <TableCell>2022/05/06</TableCell>
-                                <TableCell>
-                                    <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                                        <Button>Edit</Button>
-                                        <Button color="error">Delete</Button>
-                                    </ButtonGroup>
-                                </TableCell>
-                            </TableRow>
+                            {
+                                data.map((d) => {
+                                    return (
+                                        <TableRow key={d.id}>
+                                            <TableCell>{d.name}</TableCell>
+                                            <TableCell>{d.description}</TableCell>
+                                            <TableCell>{d.type}</TableCell>
+                                            <TableCell>{d.dueDate}</TableCell>
+                                            <TableCell>
+                                                <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                                                    <Button onClick={() => editHandler(d)}>Edit</Button>
+                                                    <Button color="error" onClick={() => {
+                                                        deleteContent(d.id)
+                                                    }}>Delete</Button>
+                                                </ButtonGroup>
+                                            </TableCell>
+
+                                        </TableRow>
+                                    );
+                                })
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
 
             </Box>
 
-            <Fab variant="extended" color="primary" aria-label="add" style={fabStyle} href="/courseContent/contents/create">
+            <Fab variant="extended" color="primary" aria-label="add" style={fabStyle} href="/content/create">
                 <AddIcon sx={{mr: 1}}/>
                 Add New
             </Fab>
