@@ -1,4 +1,4 @@
-import {Avatar,CssBaseline,Grid,Box,Typography,Container} from '@mui/material';
+import {Avatar, CssBaseline, Grid, Box, Typography, Container} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {useState} from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -10,37 +10,35 @@ import {parseApiUrl, parseMessage} from "../../../helpers/functions";
 import {useSignIn} from "react-auth-kit";
 import jwt_decode from "jwt-decode";
 import CopyrightView from "../../common/CopyrightView";
+import {useAppMessage} from "../../../providers/AppMessage";
+import useQuery from "../../../helpers/hookes/useQuery";
 
 export default function SignUp() {
-    const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
+    const appMessage = useAppMessage();
     const signin = useSignIn();
     const navigate = useNavigate();
-    const {redirect} = useParams();
+    const query = useQuery();
 
     const onSubmit = (data) => {
+        appMessage.clear();
         if (data.password !== data.passwordConfirm) {
-            setError("Password and confirm password does not match.");
+            appMessage.setError("Password and confirm password does not match.");
             return;
         }
         setLoading(true);
-        setError(null);
         axios.post(parseApiUrl(`auth/signup/${data[`accountType`]}`), data)
             .then((r) => {
-                let tokenData = jwt_decode(r.data.token);
+                const tokenData = jwt_decode(r.data.token);
                 signin({
                     token: r.data.token,
                     expiresIn: tokenData.exp,
                     tokenType: "Bearer",
-                    authState: r.data.user,
+                    authState: r.data,
                 });
-                if (redirect) {
-                    navigate(redirect)
-                } else {
-                    navigate("/")
-                }
+                navigate(query.get("redirect") ?? "/");
             })
-            .catch((e) => setError(parseMessage(e)))
+            .catch((e) => appMessage.setError(e))
             .finally(() => setLoading(false));
     }
 
@@ -103,8 +101,8 @@ export default function SignUp() {
 
                     </Grid>
 
-                    {error && (
-                        <Alert severity="error" sx={{marginTop: 2}}>{error}</Alert>
+                    {appMessage.error && (
+                        <Alert severity="error" sx={{marginTop: 2}}>{appMessage.error}</Alert>
                     )}
 
                     <LoadingButton

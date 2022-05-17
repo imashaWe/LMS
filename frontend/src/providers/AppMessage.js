@@ -22,12 +22,12 @@ export default function AppMessage({children}) {
     useEffect(() => setAppError(null), [location]);
 
     return (<AppErrorContext.Provider value={value}>
-            <SnackbarProvider SnackbarProps={{autoHideDuration: 4000}}>
-                <Provider template={AlertMUITemplate} {...options}>
-                    {children}
-                </Provider>
-            </SnackbarProvider>
-        </AppErrorContext.Provider>);
+        <SnackbarProvider SnackbarProps={{autoHideDuration: 4000}}>
+            <Provider template={AlertMUITemplate} {...options}>
+                {children}
+            </Provider>
+        </SnackbarProvider>
+    </AppErrorContext.Provider>);
 }
 
 export const useAppMessage = () => {
@@ -64,7 +64,7 @@ export const useAppMessage = () => {
         error: appError, alert: alert, clear: () => {
             setAppError(null)
         }, setError: (message) => {
-            setAppError(message);
+            setAppError(parseMessage(message));
         }, notifyError: (message) => {
             snackbar.showMessage(parseMessage(message));
         }, notifySuccess: (message) => {
