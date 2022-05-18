@@ -1,11 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {
     Box,
-    Breadcrumbs, Button, ButtonGroup,
+    Breadcrumbs,
+    Button,
+    ButtonGroup,
     Divider,
     Fab,
-    Link, Paper,
-    Table, TableBody, TableCell,
+    Link,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
     TableContainer,
     TableHead,
     TableRow,
@@ -39,23 +44,8 @@ function Contents() {
         navigate(url, {state: {data}})
     }
 
-    const deleteHandler = (id) => {
-        appMessage.alert.show(
-            "You can change copy of close button now!",
-            {
-                title: "Test",
-                closeCopy: "Cancel",
-                actions: [
-                    {
-                        copy: "Yes, Delete it!",
-                        onClick: () => deleteContent()
-                    }
-                ]
-            }
-        )
-    }
     const deleteContent = (id) => {
-        api.delete('content/${id}').then((r) => {
+        api.delete(`content/${id}`).then((r) => {
             init();
             appMessage.notifySuccess("Deleted Successfully");
         }).catch((e) => {
@@ -94,7 +84,7 @@ function Contents() {
                                 <TableCell>Name</TableCell>
                                 <TableCell>Description</TableCell>
                                 <TableCell>Type</TableCell>
-                                <TableCell>Added Date</TableCell>
+                                <TableCell>Due Date</TableCell>
                                 <TableCell>Action</TableCell>
                             </TableRow>
                         </TableHead>
@@ -116,7 +106,6 @@ function Contents() {
                                                     }}>Delete</Button>
                                                 </ButtonGroup>
                                             </TableCell>
-
                                         </TableRow>
                                     );
                                 })
@@ -124,14 +113,12 @@ function Contents() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-
             </Box>
 
             <Fab variant="extended" color="primary" aria-label="add" style={fabStyle} href={url}>
                 <AddIcon sx={{mr: 1}}/>
                 Add New
             </Fab>
-
         </Box>
     );
 }

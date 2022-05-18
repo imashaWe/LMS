@@ -3,8 +3,6 @@ import {Alert, Box, Breadcrumbs, Divider, Link, Typography} from "@mui/material"
 import Grid from '@mui/material/Grid';
 import {FormContainer, RadioButtonGroup, TextFieldElement} from "react-hook-form-mui";
 import LoadingButton from "@mui/lab/LoadingButton";
-
-import FormLabel from '@mui/material/FormLabel';
 import {useApi} from "../../../helpers/hookes/useApi";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useAppMessage} from "../../../providers/AppMessage";
@@ -77,7 +75,7 @@ function ContentCreate() {
                         </Grid>
 
                         <Grid item xs={3}>
-                            <FormLabel id="demo-row-radio-buttons-group-label">Type: </FormLabel>
+                            <label>Type: </label>
                         </Grid>
                         <Grid item xs={9}>
                             <RadioButtonGroup
@@ -126,7 +124,6 @@ function ContentCreate() {
                     </LoadingButton>
                 </FormContainer>
             </Box>
-
         </Box>
     );
 }
