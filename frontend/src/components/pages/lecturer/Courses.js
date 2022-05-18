@@ -95,6 +95,7 @@ function Courses() {
                             <TableRow>
                                 <TableCell>Title</TableCell>
                                 <TableCell>Description</TableCell>
+                                <TableCell>Duration</TableCell>
                                 <TableCell>Action</TableCell>
                             </TableRow>
                         </TableHead>
@@ -106,6 +107,9 @@ function Courses() {
                                             <TableCell>{d.title}</TableCell>
                                             <TableCell>
                                                 {d.description}
+                                            </TableCell>
+                                            <TableCell>
+                                                {d.duration}
                                             </TableCell>
                                             <TableCell>
                                                 <ButtonGroup variant="contained"
