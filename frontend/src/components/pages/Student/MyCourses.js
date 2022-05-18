@@ -13,7 +13,7 @@ import {useApi} from "../../../helpers/hookes/useApi";
 import {useAppLoading} from "../../../providers/AppLoading";
 import {useAppMessage} from "../../../providers/AppMessage";
 
-function AllCourses() {
+function MyCourses() {
     const [data, setData] = useState([]);
     const api = useApi();
     const appLoading = useAppLoading();
@@ -21,12 +21,12 @@ function AllCourses() {
     const navigate = useNavigate();
 
     const onClickHandler = (data) => {
-        navigate('/allcourses/view', {state: {data}})
+        navigate(`/mycourses/${data.id}`)
     }
 
     const init = () => {
         appLoading(true);
-        api.get('course')
+        api.get('course/my')
             .then((r) => setData(r.data))
             .catch((e) => appMessage.notifyError(e))
             .finally(() => appLoading(false))
@@ -40,7 +40,7 @@ function AllCourses() {
         <Box>
 
             <Breadcrumbs aria-label="breadcrumb">
-                <Typography color="text.primary">All Courses</Typography>
+                <Typography color="text.primary">My Courses</Typography>
             </Breadcrumbs>
 
             <Divider/>
@@ -67,4 +67,4 @@ function AllCourses() {
     )
 }
 
-export default AllCourses;
+export default MyCourses;

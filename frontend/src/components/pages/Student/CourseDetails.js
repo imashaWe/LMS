@@ -1,20 +1,49 @@
-import { React, useState } from "react";
-import { Box, Breadcrumbs, Divider, Link, Typography, CardContent, CardMedia, Grid, Paper, Button, ListItem, ListItemAvatar, Avatar, ListItemText } from "@mui/material";
-import { styled } from '@mui/material/styles';
-import "./App.css";
+import {
+    Box,
+    Breadcrumbs,
+    Divider,
+    Link,
+    Typography,
+    CardContent,
+    CardMedia,
+    Grid,
+    Paper,
+    Button,
+    ListItem,
+    ListItemAvatar,
+    Avatar,
+    ListItemText, Container
+} from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import StarIcon from '@mui/icons-material/Star';
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
+import {useLocation, useNavigate} from "react-router-dom";
+import {useApi} from "../../../helpers/hookes/useApi";
+import {useAppMessage} from "../../../providers/AppMessage";
+import {useState} from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 function CourseDetails() {
+    const {state} = useLocation();
+    const [loading, setLoading] = useState(false);
+    const data = state.data;
+    const api = useApi();
+    const appMessage = useAppMessage();
+    const navigate = useNavigate();
+
+    const onEnrollHandler = () => {
+        setLoading(true);
+
+        api.post(`course/enroll/${data.id}`)
+            .then((r) => {
+                appMessage.notifySuccess("Enrolled Successfully");
+                navigate("/mycourses")
+            })
+            .catch((e) => appMessage.notifyError(e))
+            .finally(() => setLoading(false));
+
+    }
+
     return (
         <Box>
 
@@ -22,85 +51,89 @@ function CourseDetails() {
                 <Link
                     underline="hover"
                     color="inherit"
-                    href="/"
+                    href="/allcourses"
                 >
                     All Courses
                 </Link>
-                <Typography color="text.primary">Course Details</Typography>
+                <Typography color="text.primary">{data.title}</Typography>
             </Breadcrumbs>
-            <Divider />
 
-            <div className="grid">
-                <Paper
-                    sx={{
-                        p: 2,
-                        margin: 'auto',
-                        maxWidth: '100%',
-                        flexGrow: 1,
-                        backgroundColor: (theme) =>
-                            theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-                    }}
-                >
-                    <Grid container spacing={2}>
+            <Divider/>
 
-                        <Grid item xs={12} sm container>
-                            <Grid item xs container direction="column" spacing={2}>
-                                <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image="/static/images/cards/contemplative-reptile.jpg"
-                                    alt="green iguana"
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        Lizard
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                                        species, ranging across all continents except Antarctica
-                                    </Typography>
-                                </CardContent>
+            <Box sx={{marginY: 2}}>
+                <Grid container spacing={2} justifyContent="center">
+
+                    <Grid item xs={10}>
+
+                        <Box sx={{
+                            width: "100%",
+                            height: 250,
+                            backgroundImage: `url(${data.thumbnailURL})`
+                        }}>
+                        </Box>
+                        <Typography gutterBottom variant="h5" component="div">
+                            {data.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            {data.description}
+                        </Typography>
+
+                        <Grid container spacing={3}>
+
+                            <Grid item xs={4}>
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            <AccountCircleIcon/>
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary="Lecturer"
+                                        secondary={`${data.lecturer.firstName} ${data.lecturer.lastName}`}/>
+                                </ListItem>
+                            </Grid>
+
+                            <Grid item xs={4}>
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            <AccessTimeIcon/>
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary="Duration" secondary={`${data.duration} weeks`}/>
+                                </ListItem>
+                            </Grid>
+
+                            <Grid item xs={4}>
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            <StarIcon/>
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary="Level" secondary={data.level.level}/>
+                                </ListItem>
+                            </Grid>
+
+                        </Grid>
+
+                        <Grid container justifyContent="center" sx={{marginY: 2}}>
+                            <Grid item xs={3}>
+                                <LoadingButton
+                                    variant="contained"
+                                    fullWidth
+                                    onClick={onEnrollHandler}
+                                    loading={loading}>Enroll
+                                </LoadingButton>
                             </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid container spacing={3}>
-                        <Grid item xs={4}>
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <AccountCircleIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary="Lecture Name" secondary="test@gmail.com" />
-                            </ListItem>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <AccessTimeIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary="Duration" secondary="10 weeks" />
-                            </ListItem>
-                        </Grid>
-                        <Grid item xs= {4}>
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <StarIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary="Level" secondary="Intermediate level" />
-                            </ListItem>
-                        </Grid>
-                    </Grid>
-                    <div className="button">
-                        <Button variant="contained" >Enroll</Button>
-                    </div>
-                </Paper>
 
-            </div>
+
+                    </Grid>
+
+
+                </Grid>
+            </Box>
 
         </Box>
     );
