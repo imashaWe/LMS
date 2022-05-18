@@ -1,7 +1,7 @@
 package kln.debuggers.lms.modules.api.course;
 
-
 import kln.debuggers.lms.modules.api.auth.lecturer.Lecturer;
+import kln.debuggers.lms.modules.api.auth.student.Student;
 import kln.debuggers.lms.modules.api.auth.user.User;
 import kln.debuggers.lms.modules.api.auth.user.UserRepository;
 import kln.debuggers.lms.modules.api.basicdata.Level;
@@ -15,8 +15,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
@@ -52,14 +53,36 @@ public class CourseService {
         courseRepository.deleteById(id);
     }
 
-    Optional<List<Course>> getCourseByUser() {
+    void enroll(Long courseID) {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final Student student = (Student) userRepository.findUserByUsername(auth.getName()).get();
+        final Course course = courseRepository.findById(courseID).get();
+
+        if (course.getStudentList().indexOf(student) != -1) {
+            return;
+        }
+
+        course.addStudent(student);
+        courseRepository.save(course);
+
+    }
+
+    List<Course> getCourseByUser() {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final User user = userRepository.findUserByUsername(auth.getName()).get();
+
         if (user.getAuthorities().contains("ROLE_LECTURER")) {
-            return courseRepository.findByLecturer((Lecturer) user);
+            return courseRepository.findByLecturer((Lecturer) user).orElse(new ArrayList<>());
         } else {
-            return courseRepository.findByLecturer((Lecturer) user);
+            return this.getCourseByStudent();
         }
 
     }
+
+    private List<Course> getCourseByStudent() {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final Student student = (Student) userRepository.findUserByUsername(auth.getName()).get();
+        return courseRepository.findAll().stream().filter((c) -> c.getStudentList().indexOf(student) != -1).collect(Collectors.toList());
+    }
+
 }
