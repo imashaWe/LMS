@@ -31,6 +31,7 @@ function Contents() {
     const appMessage = useAppMessage();
     const {state} = useLocation();
     const url = `/course/content/create/${state.data.id}`;
+
     const init = () => {
         setAppLoading(true)
         api.get(`content/${state.data.id}`)
@@ -45,7 +46,7 @@ function Contents() {
     }
 
     const deleteContent = (id) => {
-        api.delete(`content/${id}`).then((r) => {
+        api.delete(`content/${id}`).then(() => {
             init();
             appMessage.notifySuccess("Deleted Successfully");
         }).catch((e) => {
@@ -54,7 +55,7 @@ function Contents() {
     }
     useEffect(() => {
         init()
-    }, [])
+    }, []);
 
     return (
         <Box>
