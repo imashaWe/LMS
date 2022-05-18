@@ -1,11 +1,14 @@
 package kln.debuggers.lms.modules.api.course;
 
 import kln.debuggers.lms.modules.api.auth.lecturer.Lecturer;
+import kln.debuggers.lms.modules.api.auth.student.Student;
 import kln.debuggers.lms.modules.api.basicdata.Level;
 import kln.debuggers.lms.modules.api.basicdata.Subject;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Course {
@@ -23,6 +26,8 @@ public class Course {
     private Level level;
     @ManyToOne
     private Lecturer lecturer;
+    @ManyToMany
+    private List<Student> studentList = new ArrayList<>();
 
     @Transient
     private Long subjectID;
@@ -119,4 +124,11 @@ public class Course {
         this.level = level;
     }
 
+    public List<Student> getStudentList() {
+        return studentList;
+    }
+
+    public void addStudent(Student student) {
+        this.studentList.add(student);
+    }
 }
