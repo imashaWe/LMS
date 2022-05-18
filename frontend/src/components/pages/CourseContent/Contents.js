@@ -92,12 +92,13 @@ function Contents() {
                         <TableBody>
                             {
                                 data.map((d) => {
+                                    var date = new Date(d.dueDate);
                                     return (
                                         <TableRow key={d.id}>
                                             <TableCell>{d.name}</TableCell>
                                             <TableCell>{d.description}</TableCell>
                                             <TableCell>{d.type}</TableCell>
-                                            <TableCell>{d.dueDate}</TableCell>
+                                            <TableCell>{date.toLocaleString()}</TableCell>
                                             <TableCell>
                                                 <ButtonGroup variant="contained"
                                                              aria-label="outlined primary button group">
