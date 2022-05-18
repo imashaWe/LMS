@@ -1,13 +1,11 @@
 package kln.debuggers.lms.modules.api.content;
 
-import kln.debuggers.lms.modules.api.auth.user.UserRepository;
 import kln.debuggers.lms.modules.api.course.Course;
 import kln.debuggers.lms.modules.api.course.CourseRepository;
 import kln.debuggers.lms.modules.storage.CloudStorage;
 import kln.debuggers.lms.modules.storage.CloudStorageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +13,6 @@ import java.util.Optional;
 public class ContentService {
     @Autowired
     private ContentRepository contentRepository;
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private CourseRepository courseRepository;
     @Autowired
@@ -28,9 +24,7 @@ public class ContentService {
             final String url = cloudStorage.upload(content.getFile());
             content.setFileURL(url);
         }
-
         content.setCourse(course);
-
         contentRepository.save(content);
     }
 

@@ -1,8 +1,7 @@
 package kln.debuggers.lms.modules.api.content;
-
 import kln.debuggers.lms.modules.api.course.Course;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,8 +20,13 @@ public class Content {
     @ManyToOne
     private Course course;
 
+    @CreationTimestamp
+    private LocalDateTime addedDate;
+
     @Transient
     private MultipartFile file;
+
+
 
     public Long getId() {
         return id;
@@ -61,8 +65,7 @@ public class Content {
     }
 
     public void setDueDate(String dueDate) {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        this.dueDate = LocalDateTime.parse(dueDate);
+        this.dueDate = LocalDateTime.parse(dueDate, DateTimeFormatter.ISO_DATE_TIME);
     }
 
     public String getFileURL() {
@@ -79,6 +82,14 @@ public class Content {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public LocalDateTime getAddedDate() {
+        return addedDate;
+    }
+
+    public void setAddedDate(LocalDateTime addedDate) {
+        this.addedDate = addedDate;
     }
 
     public MultipartFile getFile() {
