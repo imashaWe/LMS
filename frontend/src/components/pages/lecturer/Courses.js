@@ -46,17 +46,8 @@ function Courses() {
         navigate('create', {state: {data}})
     }
     const deleteHandler = (id) => {
-        appMessage.alert.show(
-            "You can change copy of close button now!",
-            {
-                title: "Test",
-                closeCopy: "Cancel",
-                actions: [
-                    {
-                        copy: "Yes, Delete it!",
-                        onClick: () => deleteCourse()
-                    }
-                ]
+        appMessage.showDialog("Are you sure?","This process cannot be undone.", () => {
+            deleteCourse(id)
             }
         )
     }
@@ -118,8 +109,7 @@ function Courses() {
                                                     <Button
                                                         color="error"
                                                         onClick={() => {
-                                                            deleteCourse(d.id)
-                                                            //deleteHandler(d.id)
+                                                            deleteHandler(d.id)
                                                         }}>Delete
                                                     </Button>
                                                 </ButtonGroup>
