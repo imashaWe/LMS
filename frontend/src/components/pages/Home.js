@@ -1,11 +1,11 @@
-import {useApi} from "../../helpers/hookes/useApi";
+import {useAuthUser} from "react-auth-kit";
+import HomeStudent from "./Student/HomeStudent";
+import HomeLecturer from "./lecturer/HomeLecturer";
 
 function Home() {
-    const api = useApi()
-    const onClick = () => {
-        api.get('test').then((r) => console.log(r)).catch((e) => console.log(e))
-    }
-    return <h1>Hello Wold</h1>
+    const auth = useAuthUser()
+    const isStu = auth().roles.indexOf("ROLE_STUDENT") != -1;
+    return isStu ? <HomeStudent/> : <HomeLecturer/>
 }
 
 export default Home;
