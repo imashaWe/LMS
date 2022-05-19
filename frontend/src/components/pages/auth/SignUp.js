@@ -1,6 +1,12 @@
-import {Avatar, CssBaseline, Grid, Box, Typography, Container} from '@mui/material';
+import * as React from 'react';
+import {useState} from 'react';
+import Avatar from '@mui/material/Avatar';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {useState} from "react";
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import LoadingButton from "@mui/lab/LoadingButton";
 import {useNavigate, useParams} from "react-router-dom";
 import {FormContainer, PasswordElement, RadioButtonGroup, TextFieldElement} from "react-hook-form-mui";
@@ -10,35 +16,35 @@ import {parseApiUrl, parseMessage} from "../../../helpers/functions";
 import {useSignIn} from "react-auth-kit";
 import jwt_decode from "jwt-decode";
 import CopyrightView from "../../common/CopyrightView";
-import {useAppMessage} from "../../../providers/AppMessage";
 import useQuery from "../../../helpers/hookes/useQuery";
 
 export default function SignUp() {
+    const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
-    const appMessage = useAppMessage();
     const signin = useSignIn();
     const navigate = useNavigate();
+    const {redirect} = useParams();
     const query = useQuery();
 
     const onSubmit = (data) => {
-        appMessage.clear();
         if (data.password !== data.passwordConfirm) {
-            appMessage.setError("Password and confirm password does not match.");
+            setError("Password and confirm password does not match.");
             return;
         }
         setLoading(true);
+        setError(null);
         axios.post(parseApiUrl(`auth/signup/${data[`accountType`]}`), data)
             .then((r) => {
-                const tokenData = jwt_decode(r.data.token);
+                let tokenData = jwt_decode(r.data.token);
                 signin({
                     token: r.data.token,
                     expiresIn: tokenData.exp,
                     tokenType: "Bearer",
-                    authState: r.data,
+                    authState: r.data.user,
                 });
                 navigate(query.get("redirect") ?? "/");
             })
-            .catch((e) => appMessage.setError(e))
+            .catch((e) => setError(parseMessage(e)))
             .finally(() => setLoading(false));
     }
 
@@ -101,8 +107,8 @@ export default function SignUp() {
 
                     </Grid>
 
-                    {appMessage.error && (
-                        <Alert severity="error" sx={{marginTop: 2}}>{appMessage.error}</Alert>
+                    {error && (
+                        <Alert severity="error" sx={{marginTop: 2}}>{error}</Alert>
                     )}
 
                     <LoadingButton
@@ -127,17 +133,7 @@ export default function SignUp() {
                 </Grid>
 
             </Box>
-            <Box
-                component="footer"
-                sx={{
-                    py: 3,
-                    px: 2,
-                    mt: 'auto',
-                }}
-            >
-                <CopyrightView sx={{mt: 5}}/>
-            </Box>
-
+            <CopyrightView sx={{mt: 5}}/>
         </Container>
     );
 }

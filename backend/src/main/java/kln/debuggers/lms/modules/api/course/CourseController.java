@@ -39,16 +39,9 @@ public class CourseController {
         return ResponseEntity.ok("Successfully Saved");
     }
 
-    @GetMapping("my")
+    @GetMapping("/my")
     public ResponseEntity get() {
         return ResponseEntity.ok(courseService.getCourseByUser());
-    }
-
-    @PostMapping("enroll/{courseID}")
-    @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public ResponseEntity enroll(@PathVariable Long courseID) {
-        courseService.enroll(courseID);
-        return ResponseEntity.ok("Enroll success");
     }
 
 }

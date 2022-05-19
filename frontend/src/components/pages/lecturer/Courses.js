@@ -49,17 +49,8 @@ function Courses() {
         navigate('create', {state: {data}})
     }
     const deleteHandler = (id) => {
-        appMessage.alert.show(
-            "You can change copy of close button now!",
-            {
-                title: "Test",
-                closeCopy: "Cancel",
-                actions: [
-                    {
-                        copy: "Yes, Delete it!",
-                        onClick: () => deleteCourse()
-                    }
-                ]
+        appMessage.showDialog("Are you sure?","This process cannot be undone.", () => {
+            deleteCourse(id)
             }
         )
     }
@@ -98,6 +89,7 @@ function Courses() {
                             <TableRow>
                                 <TableCell>Title</TableCell>
                                 <TableCell>Description</TableCell>
+                                <TableCell>Duration</TableCell>
                                 <TableCell>Action</TableCell>
                             </TableRow>
                         </TableHead>
@@ -111,6 +103,9 @@ function Courses() {
                                                 {d.description}
                                             </TableCell>
                                             <TableCell>
+                                                {d.duration}
+                                            </TableCell>
+                                            <TableCell>
                                                 <ButtonGroup variant="contained"
                                                              aria-label="outlined primary button group">
                                                     <Button color="info" onClick={() => navigateToContent(d)}>Content</Button>
@@ -118,8 +113,7 @@ function Courses() {
                                                     <Button
                                                         color="error"
                                                         onClick={() => {
-                                                            deleteCourse(d.id)
-                                                            //deleteHandler(d.id)
+                                                            deleteHandler(d.id)
                                                         }}>Delete
                                                     </Button>
                                                 </ButtonGroup>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Box, Breadcrumbs, Divider, Link, Typography} from "@mui/material";
+import {Alert, Box, Breadcrumbs, Divider, InputAdornment, Link, Typography} from "@mui/material";
 import Grid from '@mui/material/Grid';
 import {FormContainer, SelectElement, TextFieldElement} from "react-hook-form-mui";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -93,7 +93,15 @@ function CourseCreate() {
                             <label>Duration:</label>
                         </Grid>
                         <Grid item xs={9}>
-                            <TextFieldElement name="duration" fullWidth size='small' type='number' required/>
+                            <TextFieldElement
+                                name="duration"
+                                fullWidth
+                                size='small'
+                                type='number'
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start">weeks</InputAdornment>,
+                                }}
+                                required/>
                         </Grid>
                         <Grid item xs={3}>
                             <label>Subject:</label>
@@ -121,16 +129,17 @@ function CourseCreate() {
                                 options={levels}
                             />
                         </Grid>
-                        <Grid item xs={3}>Thumbnail:</Grid>
-                        <Grid item xs={9}>
-                            <FileUploader onChange={handleChange}/>
-                        </Grid>
                         <Grid item xs={3}>
                             <label>Description:</label>
                         </Grid>
                         <Grid item xs={9}>
                             <TextFieldElement name="description" fullWidth multiline rows={5} required/>
                         </Grid>
+                        <Grid item xs={3}>Thumbnail:</Grid>
+                        <Grid item xs={9}>
+                            <FileUploader onChange={handleChange}/>
+                        </Grid>
+
 
                     </Grid>
                     {appMessage.error && (
