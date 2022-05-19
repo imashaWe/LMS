@@ -3,11 +3,11 @@ import {Alert, Box, Breadcrumbs, Divider, Link, Typography} from "@mui/material"
 import Grid from '@mui/material/Grid';
 import {FormContainer, RadioButtonGroup, TextFieldElement} from "react-hook-form-mui";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {useApi} from "../../../helpers/hookes/useApi";
+import {useApi} from "../../../../helpers/hookes/useApi";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {useAppMessage} from "../../../providers/AppMessage";
-import {parseFormData, parseMessage} from "../../../helpers/functions";
-import FileUploader from "../../common/FileUploader";
+import {useAppMessage} from "../../../../providers/AppMessage";
+import {parseFormData, parseMessage} from "../../../../helpers/functions";
+import FileUploader from "../../../common/FileUploader";
 
 function ContentCreate() {
     const api = useApi();

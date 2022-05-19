@@ -17,11 +17,11 @@ import {
     Typography
 } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import {fabStyle} from "../../../config/style";
+import {fabStyle} from "../../../../config/style";
 import {useLocation, useNavigate} from "react-router-dom";
-import {useApi} from "../../../helpers/hookes/useApi";
-import {useAppLoading} from "../../../providers/AppLoading";
-import {useAppMessage} from "../../../providers/AppMessage";
+import {useApi} from "../../../../helpers/hookes/useApi";
+import {useAppLoading} from "../../../../providers/AppLoading";
+import {useAppMessage} from "../../../../providers/AppMessage";
 
 function Contents() {
     const [data, setData] = useState([]);
@@ -46,12 +46,15 @@ function Contents() {
     }
 
     const deleteContent = (id) => {
-        api.delete(`content/${id}`).then(() => {
-            init();
-            appMessage.notifySuccess("Deleted Successfully");
-        }).catch((e) => {
-            appMessage.notifyError(e);
-        })
+        appMessage.showDialog("Delete Content", "Are you sure you want to permanently delete this content?", () => {
+            api.delete(`content/${id}`).then(() => {
+                init();
+                appMessage.notifySuccess("Deleted Successfully");
+            }).catch((e) => {
+                appMessage.notifyError(e);
+            })
+        });
+
     }
     useEffect(() => {
         init()
