@@ -19,8 +19,6 @@
     "material-ui-search-bar": "^1.0.0",
     "material-ui-snackbar-provider": "^2.0.0",
     "react": "^18.0.0",
-    "react-alert": "^7.0.3",
-    "react-alert-template-mui": "^1.0.7",
     "react-dom": "^18.0.0",
     "react-drag-drop-files": "^2.3.5",
     "react-hook-form": "^7.29.0",
