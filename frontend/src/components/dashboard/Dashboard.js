@@ -76,44 +76,43 @@ export default function Dashboard({children}) {
     };
 
     return (<Box sx={{display: 'flex'}}>
-            <CssBaseline/>
-            <AppBar position="fixed" open={open}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        sx={{
-                            marginRight: 5, ...(open && {display: 'none'}),
-                        }}
-                    >
-                        <MenuIcon/>
-                    </IconButton>
-                    <Typography noWrap
-                                component="h1"
-                                variant="h6"
-                                color="inherit"
-                                noWrap
-                                sx={{flexGrow: 1}}>
-                        {APP_TITLE}
-                    </Typography>
-                    <UserMenu/>
-                </Toolbar>
-                {(appLoading) && <LinearProgress color="info"/>}
-            </AppBar>
-            <Drawer variant="permanent" open={open}>
-                <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
-                    </IconButton>
-                </DrawerHeader>
-                <Divider/>
-                <AppNavList/>
-            </Drawer>
-            <Box component="main" sx={{flexGrow: 1, p: 3}}>
-                <DrawerHeader/>
-                {children}
-            </Box>
-        </Box>);
+        <CssBaseline/>
+        <AppBar position="fixed" open={open}>
+            <Toolbar>
+                <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleDrawerOpen}
+                    edge="start"
+                    sx={{
+                        marginRight: 5, ...(open && {display: 'none'}),
+                    }}
+                >
+                    <MenuIcon/>
+                </IconButton>
+                <Typography noWrap
+                            component="h1"
+                            variant="h6"
+                            color="inherit"
+                            sx={{flexGrow: 1}}>
+                    {APP_TITLE}
+                </Typography>
+                <UserMenu/>
+            </Toolbar>
+            {(appLoading) && <LinearProgress color="info"/>}
+        </AppBar>
+        <Drawer variant="permanent" open={open}>
+            <DrawerHeader>
+                <IconButton onClick={handleDrawerClose}>
+                    {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
+                </IconButton>
+            </DrawerHeader>
+            <Divider/>
+            <AppNavList/>
+        </Drawer>
+        <Box component="main" sx={{flexGrow: 1, p: 3}}>
+            <DrawerHeader/>
+            {children}
+        </Box>
+    </Box>);
 }
