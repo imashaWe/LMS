@@ -30,6 +30,9 @@ function ContentCreate() {
     const onSubmit = (data) => {
         appMessage.clear()
         const formData = parseFormData(data);
+        if (file != null) {
+            formData.append("file", file);
+        }
         setLoading(true);
         api.post(`content/create/${courseID}`, formData).then((r) => {
             appMessage.notifySuccess("Saved Successfully");
