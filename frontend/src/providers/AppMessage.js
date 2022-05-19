@@ -22,12 +22,12 @@ export default function AppMessage({children}) {
     useEffect(() => setAppError(null), [location]);
 
     return (<AppErrorContext.Provider value={value}>
-            <SnackbarProvider SnackbarProps={{autoHideDuration: 4000}}>
-                <Provider template={AlertMUITemplate} {...options}>
-                    {children}
-                </Provider>
-            </SnackbarProvider>
-        </AppErrorContext.Provider>);
+        <SnackbarProvider SnackbarProps={{autoHideDuration: 4000}}>
+            <Provider template={AlertMUITemplate} {...options}>
+                {children}
+            </Provider>
+        </SnackbarProvider>
+    </AppErrorContext.Provider>);
 }
 
 export const useAppMessage = () => {
@@ -44,13 +44,13 @@ export const useAppMessage = () => {
 
         if (e.response) {
 
-            if (e.response.status == 404) {
+            if (e.response.status === 404) {
                 navigate('404');
             }
-            if (e.response.status == 401) {
+            if (e.response.status === 401) {
                 navigate(`/login?redirect=${location.pathname}`);
             }
-            if (e.response.status == 403) {
+            if (e.response.status === 403) {
                 navigate(`403`);
             }
 
@@ -64,7 +64,7 @@ export const useAppMessage = () => {
         error: appError, alert: alert, clear: () => {
             setAppError(null)
         }, setError: (message) => {
-            setAppError(message);
+            setAppError(parseMessage(message));
         }, notifyError: (message) => {
             snackbar.showMessage(parseMessage(message));
         }, notifySuccess: (message) => {
