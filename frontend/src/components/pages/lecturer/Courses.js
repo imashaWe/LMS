@@ -36,6 +36,9 @@ function Courses() {
             .catch((e) => appMessage.notifyError(e))
             .finally(() => setAppLoading(false));
     }
+    const navigateToContent = (data) => {
+        navigate('content', {state: {data}});
+    }
     const editHandler = (data) => {
         delete data.subjectID;
         delete data.levelID;
@@ -110,6 +113,7 @@ function Courses() {
                                             <TableCell>
                                                 <ButtonGroup variant="contained"
                                                              aria-label="outlined primary button group">
+                                                    <Button color="info" onClick={() => navigateToContent(d)}>Content</Button>
                                                     <Button onClick={() => editHandler(d)}>Edit</Button>
                                                     <Button
                                                         color="error"
