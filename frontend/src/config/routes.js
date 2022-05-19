@@ -14,7 +14,9 @@ import CourseDetails from "../components/pages/Student/CourseDetails";
 import MyCourses from "../components/pages/Student/MyCourses";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faFolderTree, faFolder} from '@fortawesome/free-solid-svg-icons'
+import {faFolder, faFolderTree} from '@fortawesome/free-solid-svg-icons'
+import Contents from "../components/pages/lecturer/content/Contents";
+import ContentCreate from "../components/pages/lecturer/content/ContentCreate";
 
 export const routes = [
     {
@@ -70,7 +72,18 @@ export const routes = [
             {
                 path: "/course/create",
                 element: <RequireAuth loginPath={'/login'}><Dashboard><CourseCreate/></Dashboard></RequireAuth>,
-            }
+            },
+            {
+                path: "/course/content",
+
+                element: <RequireAuth loginPath={'/login'}><Dashboard><Contents/></Dashboard></RequireAuth>,
+            },
+            {
+                path: "/course/content/create/:courseID",
+                element: <RequireAuth
+                    loginPath={'/login'}><Dashboard><ContentCreate/></Dashboard></RequireAuth>,
+
+            },
         ]
 
     },
