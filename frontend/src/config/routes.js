@@ -2,8 +2,8 @@ import Home from "../components/pages/Home";
 import {RequireAuth} from 'react-auth-kit'
 import Dashboard from "../components/dashboard/Dashboard";
 import Blank from "../components/pages/Blank";
-import Contents from "../components/pages/CourseContent/Contents";
-import ContentCreate from "../components/pages/CourseContent/ContentCreate";
+import Contents from "../components/pages/lecturer/content/Contents";
+import ContentCreate from "../components/pages/lecturer/content/ContentCreate";
 import Login from "../components/pages/auth/Login";
 import SignUp from "../components/pages/auth/SignUp";
 import Page404 from "../components/pages/error/Page404";
