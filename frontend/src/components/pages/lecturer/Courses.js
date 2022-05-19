@@ -36,9 +36,6 @@ function Courses() {
             .catch((e) => appMessage.notifyError(e))
             .finally(() => setAppLoading(false));
     }
-    const navigateToContent = (data) => {
-        navigate('content', {state: {data}});
-    }
     const editHandler = (data) => {
         delete data.subjectID;
         delete data.levelID;
@@ -49,8 +46,17 @@ function Courses() {
         navigate('create', {state: {data}})
     }
     const deleteHandler = (id) => {
-        appMessage.showDialog("Are you sure?","This process cannot be undone.", () => {
-            deleteCourse(id)
+        appMessage.alert.show(
+            "You can change copy of close button now!",
+            {
+                title: "Test",
+                closeCopy: "Cancel",
+                actions: [
+                    {
+                        copy: "Yes, Delete it!",
+                        onClick: () => deleteCourse()
+                    }
+                ]
             }
         )
     }
@@ -89,7 +95,6 @@ function Courses() {
                             <TableRow>
                                 <TableCell>Title</TableCell>
                                 <TableCell>Description</TableCell>
-                                <TableCell>Duration</TableCell>
                                 <TableCell>Action</TableCell>
                             </TableRow>
                         </TableHead>
@@ -103,17 +108,14 @@ function Courses() {
                                                 {d.description}
                                             </TableCell>
                                             <TableCell>
-                                                {d.duration}
-                                            </TableCell>
-                                            <TableCell>
                                                 <ButtonGroup variant="contained"
                                                              aria-label="outlined primary button group">
-                                                    <Button color="info" onClick={() => navigateToContent(d)}>Content</Button>
                                                     <Button onClick={() => editHandler(d)}>Edit</Button>
                                                     <Button
                                                         color="error"
                                                         onClick={() => {
-                                                            deleteHandler(d.id)
+                                                            deleteCourse(d.id)
+                                                            //deleteHandler(d.id)
                                                         }}>Delete
                                                     </Button>
                                                 </ButtonGroup>

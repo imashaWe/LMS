@@ -1,11 +1,10 @@
-import * as React from 'react';
-import {Divider, List, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import {ListItemButton, ListItemIcon, ListItemText, Divider, List} from "@mui/material";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupRoundedIcon from '@mui/icons-material/GroupRounded';
 import {useNavigate} from "react-router-dom";
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+import * as React from "react";
 
-const AppNavList = () => {
+function LecturerNavigation() {
     const navigate = useNavigate();
     return (
         <React.Fragment>
@@ -16,12 +15,6 @@ const AppNavList = () => {
                     </ListItemIcon>
                     <ListItemText primary="Dashboard"/>
                 </ListItemButton>
-                <ListItemButton onClick={() => navigate("/course")}>
-                    <ListItemIcon>
-                        <MenuBookIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Courses"/>
-                </ListItemButton>
             </List>
             <Divider sx={{my: 1}}/>
             <List>
@@ -29,11 +22,11 @@ const AppNavList = () => {
                     <ListItemIcon>
                         <GroupRoundedIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Users"/>
+                    <ListItemText primary="Lecturer"/>
                 </ListItemButton>
             </List>
         </React.Fragment>
     );
 }
 
-export default AppNavList;
+export default LecturerNavigation;

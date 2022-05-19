@@ -12,89 +12,47 @@ import Page401 from "../components/pages/error/Page401";
 import AllCourses from "../components/pages/Student/AllCourses";
 import CourseDetails from "../components/pages/Student/CourseDetails";
 import MyCourses from "../components/pages/Student/MyCourses";
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faFolder, faFolderTree} from '@fortawesome/free-solid-svg-icons'
-import Contents from "../components/pages/lecturer/content/Contents";
-import ContentCreate from "../components/pages/lecturer/content/ContentCreate";
 
 export const routes = [
     {
-        path: "*",
-        element: <Page404/>
+        path: "*", element: <Page404/>
 
     },
     {
-        path: "/404",
-        element: <Page404/>
+        path: "/404", element: <Page404/>
     },
     {
-        path: "/401",
-        element: <Page401/>
+        path: "/401", element: <Page401/>
     },
     {
-        path: "/403",
-        element: <Page403/>
+        path: "/403", element: <Page403/>
     },
     {
-        path: "/login",
-        element: <Login/>
+        path: "/login", element: <Login/>
     },
     {
-        path: "/signup",
-        element: <SignUp/>
+        path: "/signup", element: <SignUp/>
 
     },
     {
-        path: "/",
-        dashboard:
-            {
-                title: 'Home',
-                icon: <DashboardIcon/>,
-                roles: ["ROLE_LECTURER", "ROLE_STUDENT"]
-            },
-        element: <RequireAuth loginPath={'/login'}><Dashboard><Home/></Dashboard></RequireAuth>,
+        path: "/", element: <RequireAuth loginPath={'/login'}><Dashboard><Home/></Dashboard></RequireAuth>,
 
     },
     {
         path: "/course",
-        dashboard:
-            {
-                title: 'My Courses',
-                icon: <FontAwesomeIcon icon={faFolder}/>,
-                roles: ["ROLE_LECTURER"]
-            },
         children: [
             {
-                index: true,
-                element: <RequireAuth loginPath={'/login'}><Dashboard><Courses/></Dashboard></RequireAuth>,
+                index: true, element: <RequireAuth loginPath={'/login'}><Dashboard><Courses/></Dashboard></RequireAuth>,
             },
             {
                 path: "/course/create",
                 element: <RequireAuth loginPath={'/login'}><Dashboard><CourseCreate/></Dashboard></RequireAuth>,
-            },
-            {
-                path: "/course/content",
-
-                element: <RequireAuth loginPath={'/login'}><Dashboard><Contents/></Dashboard></RequireAuth>,
-            },
-            {
-                path: "/course/content/create/:courseID",
-                element: <RequireAuth
-                    loginPath={'/login'}><Dashboard><ContentCreate/></Dashboard></RequireAuth>,
-
-            },
+            }
         ]
 
     },
     {
         path: "/allcourses",
-        dashboard:
-            {
-                title: 'All Courses',
-                icon: <FontAwesomeIcon icon={faFolderTree}/>,
-                roles: ["ROLE_STUDENT"]
-            },
         children: [
             {
                 index: true,
@@ -109,12 +67,6 @@ export const routes = [
     },
     {
         path: "/mycourses",
-        dashboard:
-            {
-                title: 'My Courses',
-                icon: <FontAwesomeIcon icon={faFolder}/>,
-                roles: ["ROLE_STUDENT"]
-            },
         children: [
             {
                 index: true,
@@ -124,8 +76,7 @@ export const routes = [
 
     },
     {
-        path: "/blank",
-        element: <RequireAuth loginPath={'/login'}><Dashboard><Blank/></Dashboard></RequireAuth>,
+        path: "/blank", element: <RequireAuth loginPath={'/login'}><Dashboard><Blank/></Dashboard></RequireAuth>,
 
     },
 ];

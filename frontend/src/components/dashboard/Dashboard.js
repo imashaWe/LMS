@@ -94,6 +94,7 @@ export default function Dashboard({children}) {
                             component="h1"
                             variant="h6"
                             color="inherit"
+                            noWrap
                             sx={{flexGrow: 1}}>
                     {APP_TITLE}
                 </Typography>

@@ -1,25 +1,19 @@
-import * as React from 'react';
-import {useState} from 'react';
-import Avatar from '@mui/material/Avatar';
+import {useState} from "react";
+import {Avatar, Alert, Link, CssBaseline, Grid, Box, Typography, Container} from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import {Alert, Link} from "@mui/material";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {FormContainer, PasswordElement, TextFieldElement} from "react-hook-form-mui";
 import axios from 'axios';
-import {useSignIn} from 'react-auth-kit'
-import {parseApiUrl, parseMessage} from "../../../helpers/functions";
+import {useSignIn} from 'react-auth-kit';
 import jwt_decode from "jwt-decode";
 import CopyrightView from "../../common/CopyrightView";
+import {parseApiUrl, parseMessage} from "../../../helpers/functions";
+import {useAppMessage} from "../../../providers/AppMessage";
 import useQuery from "../../../helpers/hookes/useQuery";
 
 export default function Login() {
-    const [error, setError] = useState();
+    const appMessage = useAppMessage();
     const [loading, setLoading] = useState(false);
     const signin = useSignIn();
     const navigate = useNavigate();
@@ -27,21 +21,19 @@ export default function Login() {
 
     const onSubmit = (data) => {
         setLoading(true);
-        setError(false);
+        appMessage.clear();
         axios.post(parseApiUrl('auth/login'), data)
             .then((r) => {
-                let tokenData = jwt_decode(r.data.token);
+                const tokenData = jwt_decode(r.data.token);
                 signin({
                     token: r.data.token,
                     expiresIn: tokenData.exp,
                     tokenType: "Bearer",
-                    authState: r.data.user,
+                    authState: r.data,
                 });
-
                 navigate(query.get("redirect") ?? "/");
-
             })
-            .catch((e) => setError(parseMessage(e)))
+            .catch((e) => appMessage.setError(e))
             .finally(() => setLoading(false));
     }
 
@@ -74,8 +66,8 @@ export default function Login() {
                         </Grid>
                     </Grid>
 
-                    {error && (
-                        <Alert severity="error" sx={{marginTop: 2}}>{error}</Alert>
+                    {appMessage.error && (
+                        <Alert severity="error" sx={{marginTop: 2}}>{appMessage.error}</Alert>
                     )}
 
                     <LoadingButton

@@ -1,9 +1,9 @@
 package kln.debuggers.lms.modules.api.course;
 
-import kln.debuggers.lms.modules.api.auth.AuthService;
 import kln.debuggers.lms.modules.api.auth.lecturer.Lecturer;
 import kln.debuggers.lms.modules.api.auth.student.Student;
 import kln.debuggers.lms.modules.api.auth.user.User;
+import kln.debuggers.lms.modules.api.auth.user.UserRepository;
 import kln.debuggers.lms.modules.api.basicdata.Level;
 import kln.debuggers.lms.modules.api.basicdata.LevelRepository;
 import kln.debuggers.lms.modules.api.basicdata.Subject;
@@ -11,6 +11,8 @@ import kln.debuggers.lms.modules.api.basicdata.SubjectRepository;
 import kln.debuggers.lms.modules.storage.CloudStorage;
 import kln.debuggers.lms.modules.storage.CloudStorageException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ public class CourseService {
     @Autowired
     private LevelRepository levelRepository;
     @Autowired
-    private AuthService authService;
+    private UserRepository userRepository;
     @Autowired
     private SubjectRepository subjectRepository;
     @Autowired
@@ -35,7 +37,8 @@ public class CourseService {
     }
 
     void addNewCourse(Course course) throws CloudStorageException {
-        final User user = authService.getAuthUser();
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final User user = userRepository.findUserByUsername(auth.getName()).get();
         final Subject subject = subjectRepository.findById(course.getSubjectID()).get();
         final Level level = levelRepository.findById(course.getLevelID()).get();
         final String url = cloudStorage.upload(course.getThumbnail());
@@ -51,7 +54,8 @@ public class CourseService {
     }
 
     void enroll(Long courseID) {
-        final Student student = (Student) authService.getAuthUser();
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final Student student = (Student) userRepository.findUserByUsername(auth.getName()).get();
         final Course course = courseRepository.findById(courseID).get();
 
         if (course.getStudentList().indexOf(student) != -1) {
@@ -64,8 +68,10 @@ public class CourseService {
     }
 
     List<Course> getCourseByUser() {
-        final User user = authService.getAuthUser();
-        if (authService.hasRole("ROLE_LECTURER")) {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final User user = userRepository.findUserByUsername(auth.getName()).get();
+
+        if (user.getAuthorities().contains("ROLE_LECTURER")) {
             return courseRepository.findByLecturer((Lecturer) user).orElse(new ArrayList<>());
         } else {
             return this.getCourseByStudent();
@@ -74,7 +80,8 @@ public class CourseService {
     }
 
     private List<Course> getCourseByStudent() {
-        final Student student = (Student) authService.getAuthUser();
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final Student student = (Student) userRepository.findUserByUsername(auth.getName()).get();
         return courseRepository.findAll().stream().filter((c) -> c.getStudentList().indexOf(student) != -1).collect(Collectors.toList());
     }
 
