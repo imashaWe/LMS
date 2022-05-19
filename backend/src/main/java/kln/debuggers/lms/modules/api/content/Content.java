@@ -65,7 +65,7 @@ public class Content {
     }
 
     public void setDueDate(String dueDate) {
-        this.dueDate = LocalDateTime.parse(dueDate, DateTimeFormatter.ISO_DATE_TIME);
+        this.dueDate = LocalDateTime.parse(dueDate);
     }
 
     public String getFileURL() {
