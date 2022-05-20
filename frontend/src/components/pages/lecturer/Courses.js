@@ -49,17 +49,8 @@ function Courses() {
         navigate('create', {state: {data}})
     }
     const deleteHandler = (id) => {
-        appMessage.alert.show(
-            "You can change copy of close button now!",
-            {
-                title: "Test",
-                closeCopy: "Cancel",
-                actions: [
-                    {
-                        copy: "Yes, Delete it!",
-                        onClick: () => deleteCourse()
-                    }
-                ]
+        appMessage.showDialog("Delete Course","Are you sure you want to permanently delete this course?", () => {
+                deleteCourse(id)
             }
         )
     }
@@ -98,6 +89,7 @@ function Courses() {
                             <TableRow>
                                 <TableCell>Title</TableCell>
                                 <TableCell>Description</TableCell>
+                                <TableCell>Duration</TableCell>
                                 <TableCell>Action</TableCell>
                             </TableRow>
                         </TableHead>
@@ -107,9 +99,8 @@ function Courses() {
                                     return (
                                         <TableRow key={d.id}>
                                             <TableCell>{d.title}</TableCell>
-                                            <TableCell>
-                                                {d.description}
-                                            </TableCell>
+                                            <TableCell>{d.description}</TableCell>
+                                            <TableCell>{d.duration}</TableCell>
                                             <TableCell>
                                                 <ButtonGroup variant="contained"
                                                              aria-label="outlined primary button group">
@@ -118,8 +109,7 @@ function Courses() {
                                                     <Button
                                                         color="error"
                                                         onClick={() => {
-                                                            deleteCourse(d.id)
-                                                            //deleteHandler(d.id)
+                                                            deleteHandler(d.id)
                                                         }}>Delete
                                                     </Button>
                                                 </ButtonGroup>
