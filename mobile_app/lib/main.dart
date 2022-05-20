@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mylms/screens/account/log_in.dart';
 import 'package:mylms/screens/app_navigation.dart';
+import 'package:mylms/services/auth/auth_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AuthService.init();
   runApp(const MyApp());
 }
 
@@ -20,6 +24,6 @@ class MyApp extends StatelessWidget {
                 backgroundColor: Color(0xFF3c3c3c)),
             bottomNavigationBarTheme: const BottomNavigationBarThemeData(
                 selectedItemColor: Color(0xFF3c3c3c))),
-        home: const AppNavigation());
+        home: AuthService.isLoggedIn ? const AppNavigation() : const LogIn());
   }
 }
