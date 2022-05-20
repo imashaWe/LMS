@@ -23,7 +23,9 @@ class MyApp extends StatelessWidget {
                 foregroundColor: Colors.white,
                 backgroundColor: Color(0xFF3c3c3c)),
             bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-                selectedItemColor: Color(0xFF3c3c3c))),
+                unselectedItemColor: Colors.grey,
+                selectedItemColor: Color(0xFF3c3c3c)),
+            dividerColor: Colors.black),
         home: AuthService.isLoggedIn ? const AppNavigation() : const LogIn());
   }
 }
