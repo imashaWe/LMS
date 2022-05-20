@@ -97,14 +97,13 @@ function Courses() {
                             {
                                 data.map((d) => {
                                     return (
-                                        <TableRow key={d.id}>
+                                        <TableRow key={d.id} onClick={() => navigateToContent(d)} hover={true}>
                                             <TableCell>{d.title}</TableCell>
                                             <TableCell>{d.description}</TableCell>
                                             <TableCell>{d.duration}</TableCell>
                                             <TableCell>
                                                 <ButtonGroup variant="contained"
                                                              aria-label="outlined primary button group">
-                                                    <Button color="info" onClick={() => navigateToContent(d)}>Content</Button>
                                                     <Button onClick={() => editHandler(d)}>Edit</Button>
                                                     <Button
                                                         color="error"
