@@ -24,7 +24,6 @@ class ApiService {
       }
       return jsonDecode(res.body);
     } on SocketException catch (e) {
-      print(e.message);
       throw ApiException("Network Erorr");
     }
   }
@@ -38,7 +37,6 @@ class ApiService {
       }
       return jsonDecode(res.body);
     } on SocketException catch (e) {
-      print(e.message);
       throw ApiException("Network Erorr");
     }
   }
