@@ -27,7 +27,7 @@ class _AppNavigationState extends State<AppNavigation> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.graduationCap), label: "My COurses"),
+              icon: Icon(FontAwesomeIcons.graduationCap), label: "My Courses"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
         ],
         onTap: _change,
