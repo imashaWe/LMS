@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:mylms/config/env.dart';
+import 'package:mylms/services/api/api_exception.dart';
 import 'package:mylms/services/auth/auth_service.dart';
 
 class ApiService {
@@ -10,14 +15,31 @@ class ApiService {
     "Authorization": "Bearer ${AuthService.user!.token}",
   };
 
-  static Future<http.Response> post(
-      String path, Map<String, dynamic> data) async {
+  static Future<dynamic> post(String path, Map<String, dynamic> data) async {
     final url = Uri.parse("${Env.baseUrl}$path");
-    return await http.post(url, headers: _headres, body: data);
+    try {
+      final res = await http.post(url, headers: _headres, body: data);
+      if (res.statusCode != 200) {
+        throw ApiException("Something went wrong");
+      }
+      return jsonDecode(res.body);
+    } on SocketException catch (e) {
+      print(e.message);
+      throw ApiException("Network Erorr");
+    }
   }
 
-  static Future<http.Response> get(String path) async {
+  static Future<dynamic> get(String path) async {
     final url = Uri.parse("${Env.baseUrl}$path");
-    return await http.get(url, headers: _headres);
+    try {
+      final res = await http.get(url, headers: _headres);
+      if (res.statusCode != 200) {
+        throw ApiException("Something went wrong");
+      }
+      return jsonDecode(res.body);
+    } on SocketException catch (e) {
+      print(e.message);
+      throw ApiException("Network Erorr");
+    }
   }
 }

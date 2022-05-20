@@ -17,6 +17,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'My LMS',
+        routes: {
+          '/home': (_) => const AppNavigation(),
+          '/login': (_) => const LogIn(),
+        },
         theme: ThemeData(
             primaryColor: const Color(0xFF3c3c3c),
             appBarTheme: const AppBarTheme(
