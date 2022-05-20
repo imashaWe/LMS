@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mylms/services/auth/auth_service.dart';
+import 'package:mylms/services/api/api_service.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class Home extends StatelessWidget {
         child: ElevatedButton(
           child: Text("Ok"),
           onPressed: () {
-            // AuthService.login('userName', 'password');
+            //   ApiService.get('course/my').then((value) => print(value.body));
           },
         ),
       ),
