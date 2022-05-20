@@ -56,12 +56,12 @@ class MyCourses extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        e.title!,
+                                        e.title,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline6,
                                       ),
-                                      Text(e.description!)
+                                      Text(e.description)
                                     ],
                                   ),
                                 )

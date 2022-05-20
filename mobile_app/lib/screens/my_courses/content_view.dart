@@ -10,10 +10,10 @@ class ContentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(course.title!)),
+        appBar: AppBar(title: Text(course.title)),
         body: Center(
           child: FutureBuilder<List<Content>>(
-              future: ContentService.getContentByCourseID(course.id!),
+              future: ContentService.getContentByCourseID(course.id),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
