@@ -51,14 +51,14 @@ class AuthService {
       required String lastName,
       required String userName,
       required String password}) async {
-    final url = Uri.parse("${Env.baseUrl}/auth/signup");
+    final url = Uri.parse("${Env.baseUrl}auth/signup/student");
 
     try {
       final res = await http.post(url,
           body: jsonEncode({
             'firstName': firstName,
             'lastName': lastName,
-            'username': userName,
+            'email': userName,
             'password': password
           }),
           headers: _headres);
@@ -66,7 +66,6 @@ class AuthService {
       if (res.statusCode != 200) {
         throw AuthException(res.body);
       }
-
       await _saveUser(User.fromJson(jsonDecode(res.body)));
     } on SocketException catch (e) {
       throw AuthException("Network Error");

@@ -3,6 +3,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mylms/screens/account/log_in.dart';
+import 'package:mylms/services/auth/auth_service.dart';
+import '../../services/alert/alert_service.dart';
+import '../../services/auth/auth_exception.dart';
+import '../app_navigation.dart';
 import 'auth_button.dart';
 import 'auth_form_field.dart';
 
@@ -18,6 +22,8 @@ class _SignUpState extends State<SignUp> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool _isLoading = false;
+  String? _firstName;
+  String? _lasttName;
   String? _email;
   String? _password;
 
@@ -25,6 +31,19 @@ class _SignUpState extends State<SignUp> {
     _formKey.currentState!.save();
     if (_formKey.currentState!.validate()) {
       _setLoading(true);
+      AuthService.signup(
+              firstName: _firstName!,
+              lastName: _lasttName!,
+              userName: _email!,
+              password: _password!)
+          .then((v) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const AppNavigation()),
+            (route) => false);
+      }).onError((AuthException e, stackTrace) {
+        AlerService.snakbarError(message: e.message, key: _scaffoldKey);
+      }).whenComplete(() => _setLoading(false));
     }
   }
 
@@ -67,6 +86,36 @@ class _SignUpState extends State<SignUp> {
                               height: h / 5,
                               child:
                                   SvgPicture.asset('assets/images/auth.svg')),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: AuthFormField(
+                                icon: Icons.person,
+                                hintText: "First Name",
+                                onSaved: (v) => _firstName = v,
+                                validator: (v) {
+                                  if (v!.isEmpty) return 'First is requaired';
+                                  return null;
+                                },
+                              )),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                  child: AuthFormField(
+                                icon: Icons.person,
+                                hintText: "Last Name",
+                                onSaved: (v) => _lasttName = v,
+                                validator: (v) {
+                                  if (v!.isEmpty) return 'Last is requaired';
+                                  return null;
+                                },
+                              )),
+                            ],
+                          ),
                           const SizedBox(
                             height: 20,
                           ),
