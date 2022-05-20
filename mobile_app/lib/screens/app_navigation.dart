@@ -17,9 +17,9 @@ class _AppNavigationState extends State<AppNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(index: _selectedIndex, children: const [
-        Home(),
-        MyCourses(),
+      body: IndexedStack(index: _selectedIndex, children: [
+        const Home(),
+        const MyCourses(),
         Account(),
       ]),
       bottomNavigationBar: BottomNavigationBar(

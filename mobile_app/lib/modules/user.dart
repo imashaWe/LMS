@@ -4,13 +4,13 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class User {
-  String fristName;
+  String firstName;
   String lastName;
   String email;
   String token;
 
   User(
-      {required this.fristName,
+      {required this.firstName,
       required this.lastName,
       required this.email,
       required this.token});

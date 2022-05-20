@@ -3,6 +3,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mylms/screens/account/sign_up.dart';
+import 'package:mylms/screens/app_navigation.dart';
+import 'package:mylms/services/alert/alert_service.dart';
+import 'package:mylms/services/auth/auth_exception.dart';
+import 'package:mylms/services/auth/auth_service.dart';
 import 'auth_button.dart';
 import 'auth_form_field.dart';
 
@@ -25,6 +29,14 @@ class _LogInState extends State<LogIn> {
     _formKey.currentState!.save();
     if (_formKey.currentState!.validate()) {
       _setLoading(true);
+      AuthService.login(userName: _email!, password: _password!).then((v) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const AppNavigation()),
+            (route) => false);
+      }).onError((AuthException e, stackTrace) {
+        AlerService.snakbarError(message: e.message, key: _scaffoldKey);
+      }).whenComplete(() => _setLoading(false));
     }
   }
 
@@ -100,7 +112,7 @@ class _LogInState extends State<LogIn> {
                               child: AuthButton(
                                 disable: _isLoading,
                                 onPressed: _sumbit,
-                                text: "SIGN IN",
+                                text: "LOG IN",
                               )),
                         ],
                       ))),

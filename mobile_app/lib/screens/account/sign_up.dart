@@ -123,7 +123,7 @@ class _SignUpState extends State<SignUp> {
                               child: AuthButton(
                                 disable: _isLoading,
                                 onPressed: _sumbit,
-                                text: "SIGN IN",
+                                text: "SIGN UP",
                               )),
                           const SizedBox(
                             height: 30,
@@ -139,7 +139,7 @@ class _SignUpState extends State<SignUp> {
                       style: TextStyle(color: Colors.black, fontSize: 16),
                       children: [
                     TextSpan(
-                        text: '\tSIGN IN!',
+                        text: '\tLOG IN!',
                         recognizer: TapGestureRecognizer()
                           ..onTap = () => Navigator.push(
                               context,

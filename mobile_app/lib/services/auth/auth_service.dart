@@ -9,6 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   static const _userDatakey = "userdata";
+
+  static const _headres = {
+    "Content-type": "application/json",
+    "Accept": "application/json"
+  };
+
   static SharedPreferences? _prefs;
 
   static User? get user {
@@ -23,11 +29,12 @@ class AuthService {
 
   static Future<void> login(
       {required String userName, required String password}) async {
-    final url = Uri.parse("${Env.baseUrl}/auth/login");
+    final url = Uri.parse("${Env.baseUrl}auth/login");
 
     try {
-      final res = await http
-          .post(url, body: {'userName': userName, 'password': password});
+      final res = await http.post(url,
+          body: jsonEncode({'username': userName, 'password': password}),
+          headers: _headres);
 
       if (res.statusCode != 200) {
         throw AuthException(res.body);
@@ -47,12 +54,14 @@ class AuthService {
     final url = Uri.parse("${Env.baseUrl}/auth/signup");
 
     try {
-      final res = await http.post(url, body: {
-        'firstName': firstName,
-        'lastName': lastName,
-        'userName': userName,
-        'password': password
-      });
+      final res = await http.post(url,
+          body: jsonEncode({
+            'firstName': firstName,
+            'lastName': lastName,
+            'username': userName,
+            'password': password
+          }),
+          headers: _headres);
 
       if (res.statusCode != 200) {
         throw AuthException(res.body);
@@ -62,6 +71,10 @@ class AuthService {
     } on SocketException catch (e) {
       throw AuthException("Network Error");
     }
+  }
+
+  static Future<void> logout() async {
+    await _prefs!.remove(_userDatakey);
   }
 
   static Future<void> init() async {
