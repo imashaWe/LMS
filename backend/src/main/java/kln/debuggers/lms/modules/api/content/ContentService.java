@@ -2,10 +2,13 @@ package kln.debuggers.lms.modules.api.content;
 
 import kln.debuggers.lms.modules.api.course.Course;
 import kln.debuggers.lms.modules.api.course.CourseRepository;
+import kln.debuggers.lms.modules.api.email.EmailService;
 import kln.debuggers.lms.modules.storage.CloudStorage;
 import kln.debuggers.lms.modules.storage.CloudStorageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,8 +20,10 @@ public class ContentService {
     private CourseRepository courseRepository;
     @Autowired
     private CloudStorage cloudStorage;
+    @Autowired
+    private EmailService emailService;
 
-    void addNewContent(Content content, Long courseID) throws CloudStorageException {
+    void addNewContent(Content content, Long courseID) throws CloudStorageException, MessagingException {
         final Course course = courseRepository.findById(courseID).get();
         if (content.getFile() != null) {
             final String url = cloudStorage.upload(content.getFile());
@@ -26,6 +31,7 @@ public class ContentService {
         }
         content.setCourse(course);
         contentRepository.save(content);
+        emailService.sendContentMail(content);
     }
 
     Optional<List<Content>> getContentsByCourse(Long courseID) {
