@@ -1,5 +1,4 @@
-import {Avatar, CssBaseline, Grid, Box, Typography, Container} from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import {CssBaseline, Grid, Box, Typography, Container} from '@mui/material';
 import {useState} from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {useNavigate, useParams} from "react-router-dom";
@@ -47,21 +46,19 @@ export default function SignUp() {
             <CssBaseline/>
             <Box
                 sx={{
-                    marginTop: 8,
+                    marginTop: 2,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                 }}
             >
-                <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
-                    <LockOutlinedIcon/>
-                </Avatar>
+                <img style={{height:"170px"}} src="/asset/images/signup.svg"/>
                 <Typography component="h1" variant="h5">
-                    Sign up
+                    SIGN UP
                 </Typography>
 
                 <FormContainer onSuccess={onSubmit}>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} marginY={1}>
 
                         <Grid item xs={6}>
                             <TextFieldElement fullWidth name={"firstName"} label={"First Name"} required/>
@@ -120,7 +117,7 @@ export default function SignUp() {
                 <Grid container justifyContent="flex-end">
                     <Grid item>
                         <Link href="/login">
-                            <Typography variant="body2">Already have an account? Sign in</Typography>
+                            <Typography variant="body2">Already have an account? Login</Typography>
                         </Link>
 
                     </Grid>
