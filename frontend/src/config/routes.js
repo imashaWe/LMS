@@ -17,6 +17,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faFolder, faFolderTree} from '@fortawesome/free-solid-svg-icons'
 import Contents from "../components/pages/lecturer/content/Contents";
 import ContentCreate from "../components/pages/lecturer/content/ContentCreate";
+import CourseContent from "../components/pages/Student/CourseContent";
 
 export const routes = [
     {
@@ -84,6 +85,10 @@ export const routes = [
                     loginPath={'/login'}><Dashboard><ContentCreate/></Dashboard></RequireAuth>,
 
             },
+            {
+                path: "/mycourse/:courseID",
+                element: <RequireAuth loginPath={'/login'}><Dashboard><CourseContent/></Dashboard></RequireAuth>,
+            }
         ]
 
     },
