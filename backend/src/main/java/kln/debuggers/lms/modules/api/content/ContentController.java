@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+
 @RestController
 @RequestMapping(value = "content")
 @CrossOrigin
@@ -20,7 +22,7 @@ public class ContentController {
     public ResponseEntity create(@ModelAttribute Content content, @PathVariable Long courseID) {
         try {
             contentService.addNewContent(content, courseID);
-        } catch (CloudStorageException e) {
+        } catch (CloudStorageException | MessagingException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         return ResponseEntity.ok("Successfully Saved");
