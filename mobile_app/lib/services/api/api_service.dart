@@ -40,4 +40,30 @@ class ApiService {
       throw ApiException("Network Erorr");
     }
   }
+
+  static Future<dynamic> fileUpload(String path, String filePath) async {
+    final headres = {
+      "Content-type": "multipart/form-data",
+      "Accept": "application/json",
+      "Authorization": "Bearer ${AuthService.user!.token}",
+    };
+    final url = Uri.parse("${Env.baseUrl}$path");
+    try {
+      var request = http.MultipartRequest(
+        'POST',
+        url,
+      );
+      request.headers.addAll(headres);
+      request.files.add(http.MultipartFile('file',
+          File(filePath).readAsBytes().asStream(), File(filePath).lengthSync(),
+          filename: filePath.split("/").last));
+      final res = await request.send();
+      if (res.statusCode != 200) {
+        throw ApiException("Something went wrong");
+      }
+      return;
+    } catch (e) {
+      throw ApiException("Network Erorr");
+    }
+  }
 }
