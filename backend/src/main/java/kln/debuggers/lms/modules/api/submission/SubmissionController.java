@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("submission")
+@CrossOrigin
 public class SubmissionController {
     @Autowired
     SubmissionService submissionService;
@@ -27,8 +28,18 @@ public class SubmissionController {
     }
 
     @PostMapping("/mark/{submissionID}")
-    public ResponseEntity markSubmission(@PathVariable Long submissionID,@RequestBody SubmissionMark submissionMark) {
+    public ResponseEntity markSubmission(@PathVariable Long submissionID, @RequestBody SubmissionMark submissionMark) {
         submissionService.markSubmission(submissionID, submissionMark);
         return ResponseEntity.ok("Successfully mark submission");
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity mySubmissions() {
+        return ResponseEntity.ok(submissionService.getMySubmissions());
+    }
+
+    @GetMapping("/todolist")
+    public ResponseEntity getTodolist() {
+        return ResponseEntity.ok(submissionService.getTodolist());
     }
 }
