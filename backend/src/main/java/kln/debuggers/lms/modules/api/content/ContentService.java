@@ -1,5 +1,7 @@
 package kln.debuggers.lms.modules.api.content;
 
+import kln.debuggers.lms.modules.api.auth.AuthService;
+import kln.debuggers.lms.modules.api.auth.lecturer.Lecturer;
 import kln.debuggers.lms.modules.api.course.Course;
 import kln.debuggers.lms.modules.api.course.CourseRepository;
 import kln.debuggers.lms.modules.api.email.EmailService;
@@ -22,6 +24,8 @@ public class ContentService {
     private CloudStorage cloudStorage;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private AuthService authService;
 
     void addNewContent(Content content, Long courseID) throws CloudStorageException, MessagingException {
         final Course course = courseRepository.findById(courseID).get();
@@ -41,5 +45,9 @@ public class ContentService {
 
     public void delete(Long id) {
         contentRepository.deleteById(id);
+    }
+
+    Optional<List<Content>> getContentsByLecturer() {
+        return contentRepository.findAllByLecturer((Lecturer) authService.getAuthUser());
     }
 }

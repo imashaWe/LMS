@@ -39,4 +39,9 @@ public class ContentController {
     public ResponseEntity get(@PathVariable Long courseID) {
         return ResponseEntity.ok(contentService.getContentsByCourse(courseID));
     }
+
+    @GetMapping("my")
+    public ResponseEntity getMy() {
+        return ResponseEntity.ok(contentService.getContentsByLecturer());
+    }
 }
