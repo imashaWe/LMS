@@ -1,6 +1,6 @@
 import {useAuthUser} from "react-auth-kit";
-import HomeStudent from "./Student/HomeStudent";
 import HomeLecturer from "./lecturer/HomeLecturer";
+import HomeStudent from "./Student/home/HomeStudent";
 
 function Home() {
     const auth = useAuthUser()
