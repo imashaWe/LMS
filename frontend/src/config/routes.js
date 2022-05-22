@@ -21,6 +21,7 @@ import CourseContent from "../components/pages/Student/CourseContent";
 import AssignmentSubmission from "../components/pages/Student/AssignmentSubmission";
 import AssignmentMark from "../components/pages/lecturer/submission/AssignmentMark";
 import Submission from "../components/pages/lecturer/submission/Submission";
+import SingleContentView from "../components/pages/Student/SingleContentView";
 
 export const routes = [
     {
@@ -132,6 +133,11 @@ export const routes = [
             {
                 path: "/mycourses/submission",
                 element: <RequireAuth loginPath={'/login'}><Dashboard><AssignmentSubmission/></Dashboard></RequireAuth>,
+
+            },
+            {
+                path: "/mycourses/details",
+                element: <RequireAuth loginPath={'/login'}><Dashboard><SingleContentView/></Dashboard></RequireAuth>,
 
             }
         ]

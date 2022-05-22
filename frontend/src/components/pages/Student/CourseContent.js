@@ -26,7 +26,7 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import StarIcon from '@mui/icons-material/Star';
 import BookIcon from '@mui/icons-material/Book';
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useApi} from "../../../helpers/hookes/useApi";
 import {useAppLoading} from "../../../providers/AppLoading";
 import {useAppMessage} from "../../../providers/AppMessage";
@@ -36,6 +36,7 @@ export default function CourseContent() {
 
     const [data, setData] = useState([]);
     const api = useApi();
+    const navigator = useNavigate();
     const setAppLoading = useAppLoading();
     const appMessage = useAppMessage();
     const {courseID} = useParams();
@@ -52,7 +53,9 @@ export default function CourseContent() {
         init()
     }, []);
 
-
+    const navigateTo = ( path,data) => {
+        navigator(path, {state: {data: data}});
+    }
     return (
         <Box>
 
@@ -74,7 +77,7 @@ export default function CourseContent() {
                 }}
             >
                 {data.length && (
-                    <Box sx={{margin: 8,align: "center"}}>
+                    <Box sx={{margin: 8, align: "center"}}>
                         <Grid container spacing={2}>
                             <Grid item xs={4}>
                                 <ListItem>
@@ -115,7 +118,7 @@ export default function CourseContent() {
                             <Grid item xs={12}>
                                 <Typography variant="h6">{data[0].course.description}</Typography>
                             </Grid>
-                         </Grid>
+                        </Grid>
                     </Box>
                 )}
                 <Grid container spacing={2}>
@@ -151,9 +154,24 @@ export default function CourseContent() {
                                                     <Typography>{d.description}</Typography>
                                                 </CardContent>
                                                 <CardActions>
-                                                    {(d.type == 'Content') && <Button size="small" variant="contained" > View</Button>}
-                                                    {(d.type == 'Assignment') && <Button size="small" variant="contained"> Submit</Button>}
-                                                    {(d.type == 'Announcement') && <Button size="small" variant="contained"> View</Button>}
+                                                    {(d.type == 'Content') &&
+                                                    <Button size="small"
+                                                            variant="contained"
+                                                            onClick={()=>navigateTo('/mycourses/details',d)}> View
+                                                    </Button>
+                                                    }
+                                                    {(d.type == 'Assignment') &&
+                                                    <Button size="small"
+                                                            variant="contained"
+                                                            onClick={()=>navigateTo('/mycourses/submission',d)}> Submit
+                                                    </Button>
+                                                    }
+                                                    {(d.type == 'Announcement') &&
+                                                    <Button size="small"
+                                                            variant="contained"
+                                                            onClick={()=>navigateTo('/mycourses/details',d)}>View
+                                                    </Button>
+                                                    }
                                                 </CardActions>
                                             </TimelineContent>
                                         </Card>
