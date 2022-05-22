@@ -9,6 +9,7 @@ class Content {
   String description;
   String type;
   String dueDate;
+  String addedDate;
   String? fileURL;
 
   Content(
@@ -17,6 +18,7 @@ class Content {
       required this.description,
       required this.type,
       required this.dueDate,
+      required this.addedDate,
       this.fileURL});
 
   factory Content.fromJson(Map<String, dynamic> json) =>

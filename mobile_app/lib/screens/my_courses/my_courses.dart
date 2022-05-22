@@ -3,8 +3,20 @@ import 'package:mylms/modules/course.dart';
 import 'package:mylms/screens/my_courses/content_view.dart';
 import 'package:mylms/services/api/course_service.dart';
 
-class MyCourses extends StatelessWidget {
-  const MyCourses({Key? key}) : super(key: key);
+class MyCourses extends StatefulWidget {
+  MyCourses({Key? key}) : super(key: key);
+
+  @override
+  State<MyCourses> createState() => _MyCoursesState();
+}
+
+class _MyCoursesState extends State<MyCourses> {
+  Future<List<Course>>? _future;
+  @override
+  void initState() {
+    _future = CourseService.getMyCourses();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +28,13 @@ class MyCourses extends StatelessWidget {
       appBar: AppBar(title: const Text("My Courses")),
       body: Center(
         child: FutureBuilder<List<Course>>(
-            future: CourseService.getMyCourses(),
+            future: _future,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
               }
               if (snapshot.hasError) {
+                print(snapshot.error);
                 return const Text("Something went wrong");
               }
               return ListView(
