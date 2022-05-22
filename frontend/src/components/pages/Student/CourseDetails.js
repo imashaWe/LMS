@@ -15,7 +15,7 @@ import {
     ListItemText, Container
 } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 import StarIcon from '@mui/icons-material/Star';
 import {useLocation, useNavigate} from "react-router-dom";
 import {useApi} from "../../../helpers/hookes/useApi";
@@ -97,7 +97,7 @@ function CourseDetails() {
                                 <ListItem>
                                     <ListItemAvatar>
                                         <Avatar>
-                                            <AccessTimeIcon/>
+                                            <DateRangeIcon/>
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText primary="Duration" secondary={`${data.duration} weeks`}/>

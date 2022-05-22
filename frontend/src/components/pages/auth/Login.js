@@ -49,15 +49,13 @@ export default function Login() {
                     alignItems: 'center',
                 }}
             >
-                <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
-                    <LockOutlinedIcon/>
-                </Avatar>
+                <img style={{height:"170px"}} src="/asset/images/login.svg"/>
                 <Typography component="h1" variant="h5">
-                    Log in
+                    LOGIN
                 </Typography>
 
                 <FormContainer onSuccess={onSubmit}>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} marginY={1}>
                         <Grid item xs={12}>
                             <TextFieldElement fullWidth name={"username"} type={"email"} required/>
                         </Grid>
@@ -77,7 +75,7 @@ export default function Login() {
                         sx={{mt: 3, mb: 2}}
                         loading={loading}
                     >
-                        Log In
+                        LOGIN
                     </LoadingButton>
 
                 </FormContainer>

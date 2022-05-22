@@ -20,11 +20,13 @@ import {
     Typography
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import VideoFileIcon from '@mui/icons-material/VideoFile';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import AnnouncementIcon from '@mui/icons-material/Announcement';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import StarIcon from '@mui/icons-material/Star';
+import BookIcon from '@mui/icons-material/Book';
 import {useLocation, useParams} from "react-router-dom";
-import DetailsIcon from '@mui/icons-material/Details';
 import {useApi} from "../../../helpers/hookes/useApi";
 import {useAppLoading} from "../../../providers/AppLoading";
 import {useAppMessage} from "../../../providers/AppMessage";
@@ -78,7 +80,7 @@ export default function CourseContent() {
                                 <ListItem>
                                     <ListItemAvatar>
                                         <Avatar>
-                                            <DetailsIcon/>
+                                            <BookIcon/>
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
@@ -90,7 +92,7 @@ export default function CourseContent() {
                                 <ListItem>
                                     <ListItemAvatar>
                                         <Avatar>
-                                            <DetailsIcon/>
+                                            <StarIcon/>
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
@@ -102,7 +104,7 @@ export default function CourseContent() {
                                 <ListItem>
                                     <ListItemAvatar>
                                         <Avatar>
-                                            <DetailsIcon/>
+                                            <DateRangeIcon/>
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
@@ -132,10 +134,10 @@ export default function CourseContent() {
                                     </Grid>
                                     <TimelineSeparator>
                                         <TimelineConnector/>
-                                        <TimelineDot color="primary">
-                                            {(d.type == 'Content') && <LibraryBooksIcon/>}
+                                        <TimelineDot color="primary" variant="outlined">
+                                            {(d.type == 'Content') && <VideoFileIcon/>}
                                             {(d.type == 'Assignment') && <AssignmentIcon/>}
-                                            {(d.type == 'Announcement') && <AnnouncementIcon/>}
+                                            {(d.type == 'Announcement') && <CampaignIcon/>}
                                         </TimelineDot>
                                         <TimelineConnector/>
                                     </TimelineSeparator>
@@ -149,9 +151,9 @@ export default function CourseContent() {
                                                     <Typography>{d.description}</Typography>
                                                 </CardContent>
                                                 <CardActions>
-                                                    {(d.type == 'Content') && <Button size="small" variant="outlined" > View</Button>}
-                                                    {(d.type == 'Assignment') && <Button size="small" variant="outlined"> Submit</Button>}
-                                                    {(d.type == 'Announcement') && <Button size="small" variant="outlined"> View</Button>}
+                                                    {(d.type == 'Content') && <Button size="small" variant="contained" > View</Button>}
+                                                    {(d.type == 'Assignment') && <Button size="small" variant="contained"> Submit</Button>}
+                                                    {(d.type == 'Announcement') && <Button size="small" variant="contained"> View</Button>}
                                                 </CardActions>
                                             </TimelineContent>
                                         </Card>

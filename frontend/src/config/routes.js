@@ -86,8 +86,7 @@ export const routes = [
                 path: "/course/content/create/:courseID",
                 element: <RequireAuth
                     loginPath={'/login'}><Dashboard><ContentCreate/></Dashboard></RequireAuth>,
-
-            }
+            },
         ]
 
     },
@@ -121,11 +120,11 @@ export const routes = [
                 index: true,
                 element: <RequireAuth loginPath={'/login'}><Dashboard><MyCourses/></Dashboard></RequireAuth>
             },
-            ,
             {
                 path: "/mycourses/:courseID",
                 element: <RequireAuth loginPath={'/login'}><Dashboard><CourseContent/></Dashboard></RequireAuth>,
-            },
+
+            },    
             {
                 path: '/mycourses/view',
                 element: <RequireAuth loginPath={'/login'}><Dashboard><CourseDetails/></Dashboard></RequireAuth>
@@ -133,6 +132,7 @@ export const routes = [
             {
                 path: "/mycourses/submission",
                 element: <RequireAuth loginPath={'/login'}><Dashboard><AssignmentSubmission/></Dashboard></RequireAuth>,
+
             }
         ]
 
