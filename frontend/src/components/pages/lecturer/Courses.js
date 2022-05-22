@@ -97,10 +97,10 @@ function Courses() {
                             {
                                 data.map((d) => {
                                     return (
-                                        <TableRow key={d.id} onClick={() => navigateToContent(d)} hover={true}>
-                                            <TableCell>{d.title}</TableCell>
-                                            <TableCell>{d.description}</TableCell>
-                                            <TableCell>{d.duration}</TableCell>
+                                        <TableRow key={d.id} hover={true}>
+                                            <TableCell onClick={() => navigateToContent(d)} >{d.title}</TableCell>
+                                            <TableCell onClick={() => navigateToContent(d)} >{d.description}</TableCell>
+                                            <TableCell onClick={() => navigateToContent(d)} >{d.duration}</TableCell>
                                             <TableCell>
                                                 <ButtonGroup variant="contained"
                                                              aria-label="outlined primary button group">
