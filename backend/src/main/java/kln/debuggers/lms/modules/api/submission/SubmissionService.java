@@ -2,6 +2,7 @@ package kln.debuggers.lms.modules.api.submission;
 
 import kln.debuggers.lms.modules.api.auth.AuthService;
 import kln.debuggers.lms.modules.api.auth.student.Student;
+import kln.debuggers.lms.modules.api.content.Content;
 import kln.debuggers.lms.modules.api.content.ContentRepository;
 import kln.debuggers.lms.modules.storage.CloudStorage;
 import kln.debuggers.lms.modules.storage.CloudStorageException;
@@ -43,5 +44,13 @@ public class SubmissionService {
 
     public Optional<List<Submission>> getAllSubmissions(Long contentID) {
         return submissionRepository.findAllByContent(contentRepository.findById(contentID).get());
+    }
+
+    public Optional<List<Submission>> getMySubmissions() {
+        return submissionRepository.findAllByStudent((Student) authService.getAuthUser());
+    }
+
+    public Optional<List<Content>> getTodolist() {
+        return submissionRepository.getTodolist((Student) authService.getAuthUser());
     }
 }
