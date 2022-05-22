@@ -14,10 +14,13 @@ import CourseDetails from "../components/pages/Student/CourseDetails";
 import MyCourses from "../components/pages/Student/MyCourses";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faFolder, faFolderTree} from '@fortawesome/free-solid-svg-icons'
+import {faFolder, faFolderTree, faPaperPlane} from '@fortawesome/free-solid-svg-icons'
 import Contents from "../components/pages/lecturer/content/Contents";
 import ContentCreate from "../components/pages/lecturer/content/ContentCreate";
 import CourseContent from "../components/pages/Student/CourseContent";
+import AssignmentSubmission from "../components/pages/Student/AssignmentSubmission";
+import AssignmentMark from "../components/pages/lecturer/submission/AssignmentMark";
+import Submission from "../components/pages/lecturer/submission/Submission";
 
 export const routes = [
     {
@@ -84,10 +87,6 @@ export const routes = [
                 element: <RequireAuth
                     loginPath={'/login'}><Dashboard><ContentCreate/></Dashboard></RequireAuth>,
 
-            },
-            {
-                path: "/mycourse/:courseID",
-                element: <RequireAuth loginPath={'/login'}><Dashboard><CourseContent/></Dashboard></RequireAuth>,
             }
         ]
 
@@ -125,12 +124,35 @@ export const routes = [
                 index: true,
                 element: <RequireAuth loginPath={'/login'}><Dashboard><MyCourses/></Dashboard></RequireAuth>
             },
+            ,
+            {
+                path: "/mycourses/:courseID",
+                element: <RequireAuth loginPath={'/login'}><Dashboard><CourseContent/></Dashboard></RequireAuth>,
+            },
+            {
+                path: "/mycourses/submission",
+                element: <RequireAuth loginPath={'/login'}><Dashboard><AssignmentSubmission/></Dashboard></RequireAuth>,
+            }
         ]
 
     },
     {
-        path: "/blank",
-        element: <RequireAuth loginPath={'/login'}><Dashboard><Blank/></Dashboard></RequireAuth>,
-
+        path: "/submissions",
+        dashboard:
+            {
+                title: 'Submissions',
+                icon: <FontAwesomeIcon icon={faPaperPlane}/>,
+                roles: ["ROLE_LECTURER"]
+            },
+        children: [
+            {
+                index: true,
+                element: <RequireAuth loginPath={'/login'}><Dashboard><Submission/></Dashboard></RequireAuth>
+            },
+            {
+                path: '/submissions/:contentID',
+                element: <RequireAuth loginPath={'/login'}><Dashboard><AssignmentMark/></Dashboard></RequireAuth>
+            }
+        ]
     },
 ];
