@@ -104,10 +104,7 @@ export const routes = [
                 index: true,
                 element: <RequireAuth loginPath={'/login'}><Dashboard><AllCourses/></Dashboard></RequireAuth>
             },
-            {
-                path: '/allcourses/view',
-                element: <RequireAuth loginPath={'/login'}><Dashboard><CourseDetails/></Dashboard></RequireAuth>
-            }
+
         ]
 
     },
@@ -128,6 +125,10 @@ export const routes = [
             {
                 path: "/mycourses/:courseID",
                 element: <RequireAuth loginPath={'/login'}><Dashboard><CourseContent/></Dashboard></RequireAuth>,
+            },
+            {
+                path: '/mycourses/view',
+                element: <RequireAuth loginPath={'/login'}><Dashboard><CourseDetails/></Dashboard></RequireAuth>
             },
             {
                 path: "/mycourses/submission",

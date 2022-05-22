@@ -20,14 +20,14 @@ import {
     Typography
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import {useAppLoading} from "../../providers/AppLoading";
-import {useAppMessage} from "../../providers/AppMessage";
-import {useApi} from "../../helpers/hookes/useApi";
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import {useLocation, useParams} from "react-router-dom";
 import DetailsIcon from '@mui/icons-material/Details';
+import {useApi} from "../../../helpers/hookes/useApi";
+import {useAppLoading} from "../../../providers/AppLoading";
+import {useAppMessage} from "../../../providers/AppMessage";
 
 
 export default function CourseContent() {
