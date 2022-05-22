@@ -2,7 +2,7 @@ import {Card, CardActionArea, CardActions, CardContent, CardMedia, Typography} f
 
 function CourseViewCard(props) {
     return (
-        <Card sx={{width: "100%"}} onClick={() => props.onClick()}>
+        <Card sx={{width: "100%"}} onClick={() => props.onClick()} elevation={5}>
             <CardActionArea>
                 <CardMedia
                     component="img"
