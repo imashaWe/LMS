@@ -27,9 +27,14 @@ class MyApp extends StatelessWidget {
                 centerTitle: true,
                 foregroundColor: Colors.white,
                 backgroundColor: Color(0xFF3c3c3c)),
+            elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(const Color(0xFF3c3c3c)))),
             bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-                unselectedItemColor: Colors.grey,
-                selectedItemColor: Color(0xFF3c3c3c)),
+              unselectedItemColor: Colors.grey,
+              selectedItemColor: Color(0xFF3c3c3c),
+            ),
             dividerColor: Colors.black),
         home: AuthService.isLoggedIn ? const AppNavigation() : const LogIn());
   }

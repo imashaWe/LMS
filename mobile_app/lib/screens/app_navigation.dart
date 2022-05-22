@@ -20,9 +20,9 @@ class _AppNavigationState extends State<AppNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(index: _selectedIndex, children: [
-        const Home(),
-        const MyCourses(),
-        const Notifications(),
+        Home(),
+        MyCourses(),
+        Notifications(),
         Account(),
       ]),
       bottomNavigationBar: BottomNavigationBar(
