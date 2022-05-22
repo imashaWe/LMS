@@ -12,6 +12,7 @@ Content _$ContentFromJson(Map<String, dynamic> json) => Content(
       description: json['description'] as String,
       type: json['type'] as String,
       dueDate: json['dueDate'] as String,
+      addedDate: json['addedDate'] as String,
       fileURL: json['fileURL'] as String?,
     );
 
@@ -21,5 +22,6 @@ Map<String, dynamic> _$ContentToJson(Content instance) => <String, dynamic>{
       'description': instance.description,
       'type': instance.type,
       'dueDate': instance.dueDate,
+      'addedDate': instance.addedDate,
       'fileURL': instance.fileURL,
     };
