@@ -103,6 +103,9 @@ export const routes = [
             {
                 index: true,
                 element: <RequireAuth loginPath={'/login'}><Dashboard><AllCourses/></Dashboard></RequireAuth>
+            },{
+                path: "/allcourses/view",
+                element: <RequireAuth loginPath={'/login'}><Dashboard><CourseDetails/></Dashboard></RequireAuth>
             },
 
         ]
