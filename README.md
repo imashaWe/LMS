@@ -4,7 +4,7 @@
 
 Simple learning management system using SpringBoot,React,Flutter
 
-[![Screenshot](https://res.cloudinary.com/dxrhrbot0/image/upload/v1657258323/portfolio/lms/Screenshot_71_pjgm0w.png)](https://github.com/imashaWe/LMS)
+[![Screenshot](https://i.im.ge/2022/07/17/FlA26Y.gif)](https://github.com/imashaWe/LMS)
 
 ## Features
 * Spring Boot **JAVA** backend with:
